@@ -3,3 +3,7 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  form(id='signUp')
+    input(type='text', name='city', placeholder='city', id='city')
+    input(type='text', name='email', placeholder='you@email.com', id='email')
+    input(type='submit', id='submitSignUp', value='Sign Up')
