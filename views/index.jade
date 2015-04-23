@@ -4,6 +4,27 @@ block content
   h1= title
   p Welcome to #{title}
   form(id='signUp')
-    input(type='text', name='city', placeholder='city', id='city')
-    input(type='text', name='email', placeholder='you@email.com', id='email')
-    input(type='submit', id='submitSignUp', value='Sign Up')
+    p City:
+      input(type='text', name='city', placeholder='city')
+    p Move in date:
+      input(type='text', name='moveIn', placeholder='1/1/2016')
+    p Move out date:
+      input(type='text', name='moveOut', placeholder='1/1/2016')
+    p Number of guests:
+      input(type='text', name='numGuests', placeholder='1')
+    p Minimum price:
+      input(type='text', name='priceMin', placeholder='0')
+    p Maximum price:
+      input(type='text', name='priceMax', placeholder='1000+')
+    p Number of bedrooms:
+      input(type='text', name='numBedrooms', placeholder='1')
+    p Number of bathrooms:
+      input(type='text', name='numBathrooms', placeholder='1')
+    p Number of beds:
+      input(type='text', name='numBeds', placeholder='1')
+    p Root type:
+      input(type='text', name='roomType', placeholder='Private room')
+    p Your Email:
+      input(type='text', name='email', placeholder='you@email.com')
+    p
+      input(type='submit', id='submitSignUp', value='Sign Up')

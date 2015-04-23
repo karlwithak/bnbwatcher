@@ -1,28 +1,32 @@
 var express = require('express');
 var router = express.Router();
-var pg = require('pg');
-var conString = "postgres://airbnbwatch_user:airbnbwatch_pass@localhost/airbnbwatch_dev";
+var database = require('../util/database.js');
 
 /* Post new watcher. */
 router.post('/', function(req, res, next) {
-  var client = new pg.Client(conString);
-  client.connect(function(err) {
-    if(err) {
-      return console.error('could not connect to postgres', err);
-    }
-    client.query('INSERT INTO watchers (email, city) ' +
-                 'VALUES ($1, $2)',
-        [req.body.email, req.body.city],
-        function(err, result) {
-          if(err) {
-            return console.error('error running query', err);
-          }
-          client.end();
-        }
-    );
+  var fields = [
+    'city',
+    'moveIn',
+    'moveOut',
+    'numGuests',
+    'priceMin',
+    'priceMax',
+    'numBedrooms',
+    'numBathrooms',
+    'numBeds',
+    'roomType',
+    'email'
+  ];
+  var formResult = {};
+  fields.forEach(function (field) {
+    formResult[field] = req.body[field] ? req.body[field] : null;
   });
-
-  res.send('success' + req.body.city);
+  if (formResult.email === null || formResult.city === null) {
+    res.send('fail: missing email or city: ' + formResult);
+  } else {
+    database.addWatcher(formResult);
+    res.send('success: ' + req.body.city + " ");
+  }
 });
 
 module.exports = router;
