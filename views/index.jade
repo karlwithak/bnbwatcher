@@ -6,22 +6,49 @@ block content
   form(id='signUp')
     p City:
       input(type='text', name='city', placeholder='city', required="")
+
     p Move in date:
-      input(type='date', name='moveIn', placeholder='1/1/2016')
+      input(type='text', name='moveIn', placeholder='1/1/2016')
+      div#moveInContainer
+
     p Move out date:
-      input(type='date', name='moveOut', placeholder='1/1/2016')
-    p Number of guests:
-      input(type='text', name='numGuests', placeholder='1')
+      input(type='text', name='moveOut', placeholder='1/1/2016')
+      div#moveOutContainer
+
+  p Number of guests:
+      select(name='numGuests')
+        option(value="1") 1 Guest
+        - var n = 1
+        while n < 16
+          option(value="#{++n}") #{n} Guests
+
     p Minimum price:
       input(type='text', name='priceMin', placeholder='0')
+
     p Maximum price:
       input(type='text', name='priceMax', placeholder='1000+')
+
     p Number of bedrooms:
-      input(type='text', name='numBedrooms', placeholder='1')
+      select(name='numBedrooms')
+        option(value="1") 1 Bedroom
+        - var n = 1
+        while n < 10
+          option(value="#{++n}") #{n} Bedrooms
+
     p Number of bathrooms:
-      input(type='text', name='numBathrooms', placeholder='1')
+      select(name='numBathrooms')
+        - var n = 0
+        while n <= 8
+          option(value="#{n}") #{n} Bathrooms
+          - n += 0.5
+
     p Number of beds:
-      input(type='text', name='numBeds', placeholder='1')
+      select(name='numBeds')
+        option(value="1") 1 Bed
+        - var n = 1
+        while n < 16
+          option(value="#{++n}") #{n} Beds
+
     p Root type:
       ul
         li Entire
@@ -30,7 +57,9 @@ block content
           input(type='checkbox', name='roomTypePrivate')
         li Shared
           input(type='checkbox', name='roomTypeShared')
+
     p Your Email:
       input(type='email', name='email', placeholder='you@email.com', required="")
+
     p
       input(type='submit', id='submitSignUp', value='Sign Up')
