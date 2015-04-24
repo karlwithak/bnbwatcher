@@ -5,11 +5,11 @@ block content
   p Welcome to #{title}
   form(id='signUp')
     p City:
-      input(type='text', name='city', placeholder='city')
+      input(type='text', name='city', placeholder='city', required="")
     p Move in date:
-      input(type='text', name='moveIn', placeholder='1/1/2016')
+      input(type='date', name='moveIn', placeholder='1/1/2016')
     p Move out date:
-      input(type='text', name='moveOut', placeholder='1/1/2016')
+      input(type='date', name='moveOut', placeholder='1/1/2016')
     p Number of guests:
       input(type='text', name='numGuests', placeholder='1')
     p Minimum price:
@@ -23,8 +23,14 @@ block content
     p Number of beds:
       input(type='text', name='numBeds', placeholder='1')
     p Root type:
-      input(type='text', name='roomType', placeholder='Private room')
+      ul
+        li Entire
+          input(type='checkbox', name='roomTypeEntire')
+        li Private
+          input(type='checkbox', name='roomTypePrivate')
+        li Shared
+          input(type='checkbox', name='roomTypeShared')
     p Your Email:
-      input(type='text', name='email', placeholder='you@email.com')
+      input(type='email', name='email', placeholder='you@email.com', required="")
     p
       input(type='submit', id='submitSignUp', value='Sign Up')
