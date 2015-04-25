@@ -7,21 +7,21 @@ $(function(){
     })
   });
 
+  var millisecondsInYear = 1000*60*60*24*365;
+  var now = new Date();
+  var nowPlusTwo = new Date(now.getTime() + (millisecondsInYear * 2));
+
   var picker1 = new Pikaday({
     field: $('input[name=moveIn]')[0],
-    firstDay: 1,
-    minDate: new Date('2000-01-01'),
-    maxDate: new Date('2020-12-31'),
-    yearRange: [2000,2020],
+    minDate: now,
+    maxDate: nowPlusTwo,
     container: $("#moveInContainer")[0]
   });
 
   var picker2 = new Pikaday({
     field: $('input[name=moveOut]')[0],
-    firstDay: 1,
-    minDate: new Date('2000-01-01'),
-    maxDate: new Date('2020-12-31'),
-    yearRange: [2000,2020],
+    minDate: now,
+    maxDate: nowPlusTwo,
     container: $("#moveOutContainer")[0]
   });
 });

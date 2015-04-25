@@ -7,9 +7,26 @@ function addWatcher(formResult) {
     if (err) {
       return console.error('could not connect to postgres', err);
     }
-    client.query('INSERT INTO watchers (email, city, price_min, price_max) ' +
-                 'VALUES ($1, $2, $3, $4)',
-        [formResult.email, formResult.city, formResult.priceMin, formResult.priceMax],
+    client.query(
+        'INSERT INTO watchers (email, city, price_min, price_max, num_guests, num_bedrooms,' +
+        ' num_beds, num_baths, room_type_entire, room_type_private, room_type_shared, move_in,' +
+        ' move_out) ' +
+        'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
+        [
+            formResult.email,
+            formResult.city,
+            formResult.priceMin,
+            formResult.priceMax,
+            formResult.numGuests,
+            formResult.numBedrooms,
+            formResult.numBeds,
+            formResult.numBaths,
+            formResult.roomTypeEntire,
+            formResult.roomTypePrivate,
+            formResult.roomTypeShared,
+            formResult.moveIn,
+            formResult.moveOut
+        ],
         function (err, result) {
           if (err) {
             return console.error('error running query', err);

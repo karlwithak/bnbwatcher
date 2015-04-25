@@ -15,8 +15,9 @@ block content
       input(type='text', name='moveOut', placeholder='1/1/2016')
       div#moveOutContainer
 
-  p Number of guests:
+    p Number of guests:
       select(name='numGuests')
+        option(value="")
         option(value="1") 1 Guest
         - var n = 1
         while n < 16
@@ -30,20 +31,23 @@ block content
 
     p Number of bedrooms:
       select(name='numBedrooms')
+        option(value="")
         option(value="1") 1 Bedroom
         - var n = 1
         while n < 10
           option(value="#{++n}") #{n} Bedrooms
 
-    p Number of bathrooms:
-      select(name='numBathrooms')
+    p Number of Bathrooms:
+      select(name='numBaths')
         - var n = 0
+        option(value="")
         while n <= 8
           option(value="#{n}") #{n} Bathrooms
           - n += 0.5
 
     p Number of beds:
       select(name='numBeds')
+        option(value="")
         option(value="1") 1 Bed
         - var n = 1
         while n < 16
@@ -52,11 +56,11 @@ block content
     p Root type:
       ul
         li Entire
-          input(type='checkbox', name='roomTypeEntire')
+          input(type='checkbox', name='roomTypeEntire', checked="")
         li Private
-          input(type='checkbox', name='roomTypePrivate')
+          input(type='checkbox', name='roomTypePrivate', checked="")
         li Shared
-          input(type='checkbox', name='roomTypeShared')
+          input(type='checkbox', name='roomTypeShared', checked="")
 
     p Your Email:
       input(type='email', name='email', placeholder='you@email.com', required="")
