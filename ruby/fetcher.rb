@@ -7,8 +7,20 @@ conn = PG.connect(
     :port => 5432,
     :host => 'localhost')
 
+def handle_row(row)
+  query = ''
+  row.each do |colName, colVal|
+    unless colVal.nil?
+      query += "?#{colName}=#{colVal}"
+    end
+  end
+  print query + "\n"
+end
+
 conn.exec('SELECT * FROM watchers') do |result|
   result.each do |row|
-    puts "email: #{row['email']}, city: #{row['city']}"
+    handle_row row
   end
 end
+
+
