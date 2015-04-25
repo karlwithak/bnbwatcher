@@ -5,18 +5,18 @@ block content
   p Welcome to #{title}
   form(id='signUp')
     p City:
-      input(type='text', name='city', placeholder='city', required="")
+      input(type='text', name='location', placeholder='city', required="")
 
     p Move in date:
-      input(type='text', name='moveIn', placeholder='1/1/2016')
+      input(type='text', name='checkin', placeholder='1/1/2016')
       div#moveInContainer
 
     p Move out date:
-      input(type='text', name='moveOut', placeholder='1/1/2016')
+      input(type='text', name='checkout', placeholder='1/1/2016')
       div#moveOutContainer
 
     p Number of guests:
-      select(name='numGuests')
+      select(name='number_of_guests')
         option(value="")
         option(value="1") 1 Guest
         - var n = 1
@@ -24,13 +24,13 @@ block content
           option(value="#{++n}") #{n} Guests
 
     p Minimum price:
-      input(type='text', name='priceMin', placeholder='0')
+      input(type='text', name='price_min', placeholder='0')
 
     p Maximum price:
-      input(type='text', name='priceMax', placeholder='1000+')
+      input(type='text', name='price_max', placeholder='1000+')
 
     p Number of bedrooms:
-      select(name='numBedrooms')
+      select(name='min_bedrooms')
         option(value="")
         option(value="1") 1 Bedroom
         - var n = 1
@@ -38,7 +38,7 @@ block content
           option(value="#{++n}") #{n} Bedrooms
 
     p Number of Bathrooms:
-      select(name='numBaths')
+      select(name='min_bathrooms')
         - var n = 0
         option(value="")
         while n <= 8
@@ -46,7 +46,7 @@ block content
           - n += 0.5
 
     p Number of beds:
-      select(name='numBeds')
+      select(name='min_beds')
         option(value="")
         option(value="1") 1 Bed
         - var n = 1
@@ -56,11 +56,11 @@ block content
     p Root type:
       ul
         li Entire
-          input(type='checkbox', name='roomTypeEntire', checked="")
+          input(type='checkbox', name='room_type_entire', checked="")
         li Private
-          input(type='checkbox', name='roomTypePrivate', checked="")
+          input(type='checkbox', name='room_type_private', checked="")
         li Shared
-          input(type='checkbox', name='roomTypeShared', checked="")
+          input(type='checkbox', name='room_type_shared', checked="")
 
     p Your Email:
       input(type='email', name='email', placeholder='you@email.com', required="")

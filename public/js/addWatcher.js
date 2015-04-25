@@ -12,14 +12,14 @@ $(function(){
   var nowPlusTwo = new Date(now.getTime() + (millisecondsInYear * 2));
 
   var picker1 = new Pikaday({
-    field: $('input[name=moveIn]')[0],
+    field: $('input[name=checkin]')[0],
     minDate: now,
     maxDate: nowPlusTwo,
     container: $("#moveInContainer")[0]
   });
 
   var picker2 = new Pikaday({
-    field: $('input[name=moveOut]')[0],
+    field: $('input[name=checkout]')[0],
     minDate: now,
     maxDate: nowPlusTwo,
     container: $("#moveOutContainer")[0]
