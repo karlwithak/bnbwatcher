@@ -7,7 +7,7 @@ module Emailer
     new_ids.each { |id| body <<
         "https://www.airbnb.com/rooms/#{id}?checkin=#{watcher['checkin']}&checkout=#{watcher['checkout']} \n"}
     mail = Mail.new do
-      from    'nkhrynui@uwaterloo.ca'
+      from    'alert@airbnbwatch.com'
       to      watcher['email']
       subject "#{new_ids.length} new rooms in #{watcher['location']}"
       body    body

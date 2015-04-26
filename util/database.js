@@ -1,8 +1,18 @@
 var pg = require('pg');
-var conString = "postgres://airbnbwatch_user:airbnbwatch_pass@localhost/airbnbwatch_dev";
+var yaml = require('js-yaml');
+var fs = require('fs');
+var serverInfo = yaml.safeLoad(fs.readFileSync('server_info.yml'));
+var dbInfo = serverInfo['db_info'];
+
 
 function addWatcher(fields, formResult) {
-  var client = new pg.Client(conString);
+  var client = new pg.Client({
+    user: dbInfo['user'],
+    password: dbInfo['pass'],
+    database: dbInfo['name'],
+    host: dbInfo['host'],
+    port: dbInfo['port']
+  });
   client.connect (function(err) {
     if (err) {
       return console.error('could not connect to postgres', err);

@@ -1,6 +1,7 @@
 require 'json'
 require 'net/http'
 require 'pg'
+require 'yaml'
 
 module Utils
 
@@ -16,12 +17,14 @@ module Utils
   end
 
   def self.get_db_connection
+    server_info = YAML.load_file '../server_info.yml'
+    db_info = server_info['db_info']
     PG.connect(
-        :dbname => 'airbnbwatch_dev',
-        :user => 'airbnbwatch_user',
-        :password => 'airbnbwatch_pass',
-        :port => 5432,
-        :host => 'localhost')
+        :dbname => db_info['name'],
+        :user => db_info['user'],
+        :password => db_info['pass'],
+        :port => db_info['port'],
+        :host => db_info['host'])
   end
 
   def self.id_array_to_string(id_array)

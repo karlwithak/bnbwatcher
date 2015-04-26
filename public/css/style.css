@@ -1,6 +1,6 @@
 body {
   padding: 20px;
-  font: 1.25em "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 1.2em "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -25,14 +25,14 @@ input[type=checkbox] {
 }
 
 input[type=checkbox]:checked + label span.room_type {
-  border: solid 3px #555;
+  border: solid 3px #5FaAFF;
 }
 
 .room_type {
   padding: 8px;
   margin: 5px;
   cursor: pointer;
-  border: solid 3px #5FaAFF;
+  border: solid 3px #555;
 }
 
 span.room_type:hover {
