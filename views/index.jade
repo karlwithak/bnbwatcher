@@ -2,68 +2,69 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
   form(id='signUp')
-    p City:
-      input(type='text', name='location', placeholder='city', required="")
-
-    p Move in date:
-      input(type='text', name='checkin', placeholder='1/1/2016')
-      div#moveInContainer
-
-    p Move out date:
-      input(type='text', name='checkout', placeholder='1/1/2016')
-      div#moveOutContainer
-
-    p Number of guests:
+    h3 Location
+    div
+      input(type='text', name='location', placeholder='City', required="", autocomplete="off")
       select(name='number_of_guests')
-        option(value="")
         option(value="1") 1 Guest
         - var n = 1
         while n < 16
           option(value="#{++n}") #{n} Guests
 
+    h3 Dates
+    p
+      input(type='text', name='checkin', placeholder='Check In Date', autocomplete="off")
+      div#moveInContainer
+    p
+      input(type='text', name='checkout', placeholder='Check Out Date', autocomplete="off")
+      div#moveOutContainer
+
+    h3 Price Range
+    div
     p Minimum price:
-      input(type='text', name='price_min', placeholder='0')
+      input(type='text', name='price_min', placeholder='0', autocomplete="off")
 
     p Maximum price:
-      input(type='text', name='price_max', placeholder='1000+')
+      input(type='text', name='price_max', placeholder='1000+', autocomplete="off")
 
-    p Number of bedrooms:
+
+    h3 Size
+    div
       select(name='min_bedrooms')
-        option(value="")
+        option(value="") Bedrooms
         option(value="1") 1 Bedroom
         - var n = 1
         while n < 10
           option(value="#{++n}") #{n} Bedrooms
 
-    p Number of Bathrooms:
       select(name='min_bathrooms')
+        option(value="") Bathrooms
         - var n = 0
-        option(value="")
         while n <= 8
           option(value="#{n}") #{n} Bathrooms
           - n += 0.5
 
-    p Number of beds:
       select(name='min_beds')
-        option(value="")
+        option(value="") Beds
         option(value="1") 1 Bed
         - var n = 1
         while n < 16
           option(value="#{++n}") #{n} Beds
 
-    p Root type:
-      ul
-        li Entire
-          input(type='checkbox', name='room_type_entire', checked="")
-        li Private
-          input(type='checkbox', name='room_type_private', checked="")
-        li Shared
-          input(type='checkbox', name='room_type_shared', checked="")
-
-    p Your Email:
-      input(type='email', name='email', placeholder='you@email.com', required="")
-
+    h3 Room type
     p
+      input(type='checkbox', name='room_type_entire', checked='', id='entire_room')
+      label(for='entire_room')
+        span.room_type Entire
+      input(type='checkbox', name='room_type_private', checked='', id='private_room')
+      label(for='private_room')
+        span.room_type Private
+      input(type='checkbox', name='room_type_shared', checked='', id='shared_room')
+      label(for='shared_room')
+        span.room_type Shared
+
+    h3 Create Watcher
+    div
+      input(type='email', name='email', placeholder='Email Address', required="", autocomplete="off")
       input(type='submit', id='submitSignUp', value='Sign Up')

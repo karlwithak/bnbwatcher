@@ -1,6 +1,6 @@
 body {
-  padding: 40px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 20px;
+  font: 1.25em "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -9,8 +9,42 @@ a {
 
 input, select {
   margin: 5px;
+  border: 0;
+  border-bottom: solid 3px #5FaAFF;
+  background: #F5F5F5;
+  font-size: 1em;
+}
+
+input[type=submit] {
+  border: solid 3px #5FaAFF;
+  cursor: pointer;
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=checkbox]:checked + label span.room_type {
+  border: solid 3px #555;
+}
+
+.room_type {
+  padding: 8px;
+  margin: 5px;
+  cursor: pointer;
+  border: solid 3px #5FaAFF;
+}
+
+span.room_type:hover {
+  background: #f0f6ff
+}
+
+
+input:focus, select:focus {
+  background: #f0f6ff;
 }
 
 #moveInContainer, #moveOutContainer {
   width: 260px;
 }
+
