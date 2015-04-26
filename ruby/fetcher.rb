@@ -39,10 +39,10 @@ class Fetcher
   end
 
   def self.build_query(row)
-    query = BASE_URL
+    query = BASE_URL.dup
     row.each do |col_name, col_val|
       col_name, col_val = clean_up_row(col_name, col_val)
-      query += "&#{col_name}=#{col_val}" unless col_name.nil?
+      query << "&#{col_name}=#{col_val}" unless col_name.nil?
     end
     query
   end
