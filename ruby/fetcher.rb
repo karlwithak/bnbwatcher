@@ -6,9 +6,10 @@ class Fetcher
 
   def self.clean_up_row(col_name, col_val)
     return nil if
-        col_val.nil? or
-        col_name.eql?('email') or
-        col_name.eql?('id') or
+        col_val.nil? ||
+        col_name.eql?('email') ||
+        col_name.eql?('id') ||
+        col_name.eql?('room_ids') ||
         col_val.eql?('f')
 
     if col_name.eql?('min_bathrooms')
