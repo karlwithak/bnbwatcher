@@ -77,7 +77,7 @@ Utils.makeHttpsRequest = function(host, path, callback) {
   });
 };
 
-Utils.executeQuery = function(query, data) {
+Utils.executeQuery = function(query, data, callback) {
   var client = Utils.getClient();
   client.connect(function(err) {
       if (err) {
@@ -89,9 +89,18 @@ Utils.executeQuery = function(query, data) {
           if (err) {
             return console.error('error running query', err);
           }
+          if (callback) {
+            callback(result.rows);
+          }
           client.end();
         }
     );
+  });
+};
+
+Utils.arrayDiff = function(arr1, arr2) {
+  return arr1.filter(function(i) {
+    return arr2.indexOf(i) < 0;
   });
 };
 

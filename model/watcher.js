@@ -18,7 +18,8 @@ function Watcher() {
     'room_type_shared',
     'email'
   ];
-  this.roomIds = null;
+  this.room_ids = null;
+  this.id = null;
 }
 
 Watcher.prototype.asArray = function () {
@@ -27,7 +28,7 @@ Watcher.prototype.asArray = function () {
     accumulator.push(watcher[field]);
     return accumulator;
   }, []);
-  array.push(watcher.roomIds);
+  array.push(watcher.room_ids);
   return array;
 };
 
@@ -37,6 +38,15 @@ Watcher.prototype.loadFromForm = function(form) {
     watcher[field] = form[field] ? form[field].trim() : null;
   });
   this.validateFromForm();
+};
+
+Watcher.prototype.loadFromDbRow = function(row) {
+  var watcher = this;
+  this.properties.forEach(function (field) {
+    watcher[field] = row[field] ? row[field] : null;
+  });
+  this.id = row.id;
+  this.room_ids = row.room_ids;
 };
 
 Watcher.prototype.validateFromForm = function() {
@@ -62,7 +72,6 @@ Watcher.prototype.validateFromForm = function() {
     // [0, 5, 10, ... , 80] hopefully I remember to convert back whenever I use it.
     this.min_bathrooms *= 10;
   }
-
   this.room_type_entire = Boolean(this.room_type_entire);
   this.room_type_private = Boolean(this.room_type_private);
   this.room_type_shared = Boolean(this.room_type_shared);
@@ -77,22 +86,23 @@ Watcher.prototype.commit = function() {
   Utils.executeQuery(query, this.asArray());
 };
 
-Watcher.prototype.initRoomIds = function() {
+Watcher.prototype.initRoomIds = function(callback) {
   var watcher = this;
-  watcher.roomIds = [];
-  function callback(json) {
+  watcher.room_ids = [];
+  function fetcher(json) {
     var total_ids = json['listings_count'];
     json['listings'].forEach(function (listing) {
-      watcher.roomIds.push(listing['listing']['id']);
+      watcher.room_ids.push(listing['listing']['id']);
     });
-    if(watcher.roomIds.length < total_ids) {
-      Utils.makeHttpsRequest('m.airbnb.com', watcher.buildQuery(watcher.roomIds.length), callback);
+    if(watcher.room_ids.length < total_ids) {
+      Utils.makeHttpsRequest('m.airbnb.com', watcher.buildQuery(watcher.room_ids.length), fetcher);
     } else {
-      console.log(watcher.roomIds.length);
-      watcher.commit();
+      if (callback) {
+        callback();
+      }
     }
   }
-  Utils.makeHttpsRequest('m.airbnb.com', this.buildQuery(watcher.roomIds.length), callback);
+  Utils.makeHttpsRequest('m.airbnb.com', this.buildQuery(watcher.room_ids.length), fetcher);
 };
 
 Watcher.prototype.buildQuery = function(offset) {
