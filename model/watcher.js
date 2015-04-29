@@ -1,5 +1,4 @@
 var Utils = require('../util/utils.js');
-var https = require('https');
 
 var MAX_INT = 2147483646;
 
@@ -19,14 +18,17 @@ function Watcher() {
     'room_type_shared',
     'email'
   ];
+  this.roomIds = null;
 }
 
 Watcher.prototype.asArray = function () {
   var watcher = this;
-  return this.properties.reduce(function (accumulator, field) {
+  var array = this.properties.reduce(function (accumulator, field) {
     accumulator.push(watcher[field]);
     return accumulator;
   }, []);
+  array.push(watcher.roomIds);
+  return array;
 };
 
 Watcher.prototype.loadFromForm = function(form) {
@@ -70,62 +72,39 @@ Watcher.prototype.validateFromForm = function() {
 };
 
 Watcher.prototype.commit = function() {
-  var client = Utils.getClient();
-  var watcher = this;
-  client.connect (function(err) {
-    if (err) {
-      return console.error('could not connect to postgres', err);
-    }
-    var query = 'INSERT INTO watchers ( ' + watcher.properties.toString() + ' ) ' +
-        'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)';
-    client.query(query, watcher.asArray(),
-        function (err, result) {
-          if (err) {
-            return console.error('error running query', err);
-          }
-          client.end();
-        }
-    );
-  });
+  var query = 'INSERT INTO watchers ( ' + this.properties.toString() + ',room_ids ) ' +
+      'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
+  Utils.executeQuery(query, this.asArray());
 };
 
 Watcher.prototype.initRoomIds = function() {
-  var options = {
-    host: 'm.airbnb.com',
-    port: 443,
-    path: this.buildQuery(),
-    headers: {
-      accept: '*/*'
+  var watcher = this;
+  watcher.roomIds = [];
+  function callback(json) {
+    var total_ids = json['listings_count'];
+    json['listings'].forEach(function (listing) {
+      watcher.roomIds.push(listing['listing']['id']);
+    });
+    if(watcher.roomIds.length < total_ids) {
+      Utils.makeHttpsRequest('m.airbnb.com', watcher.buildQuery(watcher.roomIds.length), callback);
+    } else {
+      console.log(watcher.roomIds.length);
+      watcher.commit();
     }
-  };
-
-  https.get(options, function(response) {
-    console.log(response.statusCode);
-    var body = '';
-
-    response.on('data', function(chunk) {
-      body += chunk;
-    });
-
-    response.on('end', function() {
-      var json = JSON.parse(body);
-      console.log(json.listings_count);
-    });
-  });
-  //TODO: check if we need to make more quests to get all the data
+  }
+  Utils.makeHttpsRequest('m.airbnb.com', this.buildQuery(watcher.roomIds.length), callback);
 };
 
-Watcher.prototype.buildQuery = function() {
-  var query = '/api/-/v1/listings/search?&items_per_page=50&currency=USD'
+Watcher.prototype.buildQuery = function(offset) {
+  var query = '/api/-/v1/listings/search?items_per_page=50&currency=USD'
       + Utils.addParam('location', this.location.replace(/ /g, '+'))
-      + Utils.addParam('checkin', this.checkin.toJSON().substring(10, 0))
-      + Utils.addParam('checkout', this.checkout.toJSON().substring(10, 0))
       + Utils.addParam('number_of_guests', this.number_of_guests)
       + Utils.addParam('price_min', this.price_min)
       + Utils.addParam('price_max', this.price_max)
       + Utils.addParam('min_bedrooms', this.min_bedrooms)
       + Utils.addParam('min_bathrooms', this.min_bathrooms / 10)
-      + Utils.addParam('min_beds', this.min_beds);
+      + Utils.addParam('min_beds', this.min_beds)
+      + Utils.addParam('offset', offset);
   if (this.room_type_entire) {
     query += Utils.addParam('room_types[]', 'Entire+room');
   }
@@ -134,6 +113,12 @@ Watcher.prototype.buildQuery = function() {
   }
   if (this.room_type_shared) {
     query += Utils.addParam('room_types[]', 'Shared+room');
+  }
+  if (this.checkin !== null) {
+    query += Utils.addParam('checkin', this.checkin.toJSON().substring(10, 0))
+  }
+  if (this.checkout !== null) {
+    query += Utils.addParam('checkout', this.checkout.toJSON().substring(10, 0))
   }
   console.log(query);
   return query;

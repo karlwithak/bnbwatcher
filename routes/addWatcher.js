@@ -15,7 +15,6 @@ router.post('/', function(req, res, next) {
   } else {
     var watcher = new Watcher();
     watcher.loadFromForm(req.body);
-    //watcher.commit();
     watcher.initRoomIds();
     res.send('success: ' + req.body.location + " ");
   }

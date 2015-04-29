@@ -2,6 +2,7 @@ var pg = require('pg');
 var yaml = require('js-yaml');
 var fs = require('fs');
 var serverInfo = yaml.safeLoad(fs.readFileSync('server_info.yml'));
+var https = require('https');
 
 var Utils = {};
 
@@ -54,6 +55,44 @@ Utils.addParam = function(paramName, paramVal){
     return '&' + paramName + '=' + paramVal;
   }
   else return ''
+};
+
+Utils.makeHttpsRequest = function(host, path, callback) {
+  var options = {
+    host: host,
+    port: 443,
+    path: path,
+    headers: { accept: '*/*' }
+  };
+  https.get(options, function(response) {
+    var body = '';
+
+    response.on('data', function(chunk) {
+      body += chunk;
+    });
+
+    response.on('end', function() {
+      callback(JSON.parse(body));
+    });
+  });
+};
+
+Utils.executeQuery = function(query, data) {
+  var client = Utils.getClient();
+  client.connect(function(err) {
+      if (err) {
+        return console.error('could not connect to postgres', err);
+      }
+
+    client.query(query, data,
+        function (err, result) {
+          if (err) {
+            return console.error('error running query', err);
+          }
+          client.end();
+        }
+    );
+  });
 };
 
 module.exports = Utils;
