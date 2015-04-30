@@ -1,7 +1,6 @@
 var pg = require('pg');
 var fs = require('fs');
-var yaml = require('js-yaml');
-var dbInfo = yaml.safeLoad(fs.readFileSync('server_info.yml'))['db_info'];
+var dbInfo = JSON.parse(fs.readFileSync('server_info.json'))['db_info'];
 
 var Database = {};
 

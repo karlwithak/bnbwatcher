@@ -1,4 +1,4 @@
 .idea/
 node_modules/
-server_info.yml
+server_info.json
 *.iml

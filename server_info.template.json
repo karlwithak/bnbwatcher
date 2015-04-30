@@ -1,0 +1,9 @@
+{
+  "db_info": {
+    "name": "",
+    "user": "",
+    "pass": "",
+    "port": 5432,
+    "host": "localhost"
+  }
+}
