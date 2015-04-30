@@ -1,7 +1,3 @@
-var pg = require('pg');
-var yaml = require('js-yaml');
-var fs = require('fs');
-var serverInfo = yaml.safeLoad(fs.readFileSync('server_info.yml'));
 var https = require('https');
 
 var Utils = {};
@@ -34,21 +30,6 @@ Utils.clampInt = function(low, value, hi) {
   return Math.max(low, Math.min(value, hi));
 };
 
-Utils.getServerInfo = function() {
-  return serverInfo;
-};
-
-Utils.getClient = function() {
-  var dbInfo = serverInfo['db_info'];
-
-  return new pg.Client({
-    user: dbInfo['user'],
-    password: dbInfo['pass'],
-    database: dbInfo['name'],
-    host: dbInfo['host'],
-    port: dbInfo['port']
-  });
-};
 
 Utils.addParam = function(paramName, paramVal){
   if (paramName !== null && paramVal !== null) {
@@ -77,25 +58,8 @@ Utils.makeHttpsRequest = function(host, path, callback) {
   });
 };
 
-Utils.executeQuery = function(query, data, callback) {
-  var client = Utils.getClient();
-  client.connect(function(err) {
-      if (err) {
-        return console.error('could not connect to postgres', err);
-      }
-
-    client.query(query, data,
-        function (err, result) {
-          if (err) {
-            return console.error('error running query', err);
-          }
-          if (callback) {
-            callback(result.rows);
-          }
-          client.end();
-        }
-    );
-  });
+Utils.urlifyDate = function(date) {
+  return(date.toJSON().substring(10, 0));
 };
 
 Utils.arrayDiff = function(arr1, arr2) {

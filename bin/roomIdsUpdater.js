@@ -1,6 +1,7 @@
 var Utils = require('../util/utils.js');
 var Watcher = require('../model/watcher.js');
-
+var Database = require('../util/database.js');
+var Email = require('../util/email.js');
 
 function updater(result) {
   result.forEach(function (row) {
@@ -10,11 +11,14 @@ function updater(result) {
     watcher.room_ids = null;
     watcher.initRoomIds(checkForNewIds);
     function checkForNewIds() {
-      var newIds = watcher.room_ids;
-      console.log('new ids: ' + watcher.location + Utils.arrayDiff(newIds, oldIds));
+      var currentIds = watcher.room_ids;
+      var newIds = Utils.arrayDiff(currentIds, oldIds);
+      if (newIds.length > 0) {
+        Email.send(watcher, newIds);
+        watcher.updateRoomIds();
+      }
     }
   });
 }
 var query = 'SELECT * FROM watchers';
-Utils.executeQuery(query, [], updater);
-
+Database.executeQuery(query, [], updater);

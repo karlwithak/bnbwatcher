@@ -1,4 +1,5 @@
 var Utils = require('../util/utils.js');
+var Database = require('../util/database.js');
 
 var MAX_INT = 2147483646;
 
@@ -32,21 +33,21 @@ Watcher.prototype.asArray = function () {
   return array;
 };
 
+Watcher.prototype.loadFromDbRow = function(row) {
+  var watcher = this;
+  this.properties.forEach(function (field) {
+    watcher[field] = row[field];
+  });
+  this.id = row.id;
+  this.room_ids = row.room_ids;
+};
+
 Watcher.prototype.loadFromForm = function(form) {
   var watcher = this;
   this.properties.forEach(function (field) {
     watcher[field] = form[field] ? form[field].trim() : null;
   });
   this.validateFromForm();
-};
-
-Watcher.prototype.loadFromDbRow = function(row) {
-  var watcher = this;
-  this.properties.forEach(function (field) {
-    watcher[field] = row[field] ? row[field] : null;
-  });
-  this.id = row.id;
-  this.room_ids = row.room_ids;
 };
 
 Watcher.prototype.validateFromForm = function() {
@@ -83,7 +84,13 @@ Watcher.prototype.validateFromForm = function() {
 Watcher.prototype.commit = function() {
   var query = 'INSERT INTO watchers ( ' + this.properties.toString() + ',room_ids ) ' +
       'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
-  Utils.executeQuery(query, this.asArray());
+  Database.executeQuery(query, this.asArray());
+};
+
+Watcher.prototype.updateRoomIds = function() {
+  var query = 'UPDATE watchers SET room_ids = $1 ' +
+      'WHERE id = $2';
+  Database.executeQuery(query, [this.room_ids, this.id]);
 };
 
 Watcher.prototype.initRoomIds = function(callback) {
@@ -125,12 +132,11 @@ Watcher.prototype.buildQuery = function(offset) {
     query += Utils.addParam('room_types[]', 'Shared+room');
   }
   if (this.checkin !== null) {
-    query += Utils.addParam('checkin', this.checkin.toJSON().substring(10, 0))
+    query += Utils.addParam('checkin', Utils.urlifyDate(this.checkin))
   }
   if (this.checkout !== null) {
-    query += Utils.addParam('checkout', this.checkout.toJSON().substring(10, 0))
+    query += Utils.addParam('checkout', Utils.urlifyDate(this.checkout))
   }
-  console.log(query);
   return query;
 };
 
