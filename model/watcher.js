@@ -17,6 +17,7 @@ function Watcher() {
     'room_type_entire',
     'room_type_private',
     'room_type_shared',
+    'currency',
     'email'
   ];
   this.room_ids = null;
@@ -79,11 +80,13 @@ Watcher.prototype.validateFromForm = function() {
 
   this.checkin = Utils.filterDate(this.checkin);
   this.checkout = Utils.filterDate(this.checkout);
+
+  this.currency = this.currency ? this.currency : null;
 };
 
 Watcher.prototype.commit = function() {
   var query = 'INSERT INTO watchers ( ' + this.properties.toString() + ',room_ids ) ' +
-      'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)';
+      'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
   Database.executeQuery(query, this.asArray());
 };
 
@@ -113,7 +116,7 @@ Watcher.prototype.initRoomIds = function(callback) {
 };
 
 Watcher.prototype.buildQuery = function(offset) {
-  var query = '/api/-/v1/listings/search?items_per_page=50&currency=USD'
+  var query = '/api/-/v1/listings/search?items_per_page=50'
       + Utils.addParam('location', this.location.replace(/ /g, '+'))
       + Utils.addParam('number_of_guests', this.number_of_guests)
       + Utils.addParam('price_min', this.price_min)
@@ -121,6 +124,7 @@ Watcher.prototype.buildQuery = function(offset) {
       + Utils.addParam('min_bedrooms', this.min_bedrooms)
       + Utils.addParam('min_bathrooms', this.min_bathrooms / 10)
       + Utils.addParam('min_beds', this.min_beds)
+      + Utils.addParam('currency', this.currency)
       + Utils.addParam('offset', offset);
   if (this.room_type_entire) {
     query += Utils.addParam('room_types[]', 'Entire+room');
