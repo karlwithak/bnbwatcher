@@ -6,7 +6,7 @@ var Email = require('../util/email.js');
 function updater(result) {
   result.forEach(function (row) {
     var watcher = new Watcher();
-    watcher.loadFromDbRow(row);
+    watcher.createFromDbRow(row);
     var oldIds = watcher.room_ids;
     watcher.room_ids = null;
     watcher.initRoomIds(checkForNewIds);
@@ -14,7 +14,7 @@ function updater(result) {
       var currentIds = watcher.room_ids;
       var newIds = Utils.arrayDiff(currentIds, oldIds);
       if (newIds.length > 0) {
-        Email.send(watcher, newIds);
+        Email.sendNewRooms(watcher, newIds);
         watcher.updateRoomIds();
       }
     }

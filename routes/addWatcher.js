@@ -14,7 +14,7 @@ router.post('/', function(req, res, next) {
     res.send('fail: invalid email or location');
   } else {
     var watcher = new Watcher();
-    watcher.loadFromForm(req.body);
+    watcher.createFromForm(req.body);
     watcher.initRoomIds(function () {
       watcher.commit();
     });

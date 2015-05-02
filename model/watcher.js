@@ -4,29 +4,35 @@ var Database = require('../util/database.js');
 var MAX_INT = 2147483646;
 
 function Watcher() {
-  this.properties = [
-    'location',
-    'checkin',
-    'checkout',
-    'number_of_guests',
-    'price_min',
-    'price_max',
-    'min_bedrooms',
-    'min_bathrooms',
-    'min_beds',
-    'room_type_entire',
-    'room_type_private',
-    'room_type_shared',
-    'currency',
-    'email'
-  ];
   this.room_ids = null;
   this.id = null;
 }
 
+Watcher.properties = [
+    'email',
+    'location',
+    'price_min',
+    'price_max',
+    'number_of_guests',
+    'min_bedrooms',
+    'min_beds',
+    'min_bathrooms',
+    'room_type_entire',
+    'room_type_private',
+    'room_type_shared',
+    'checkin',
+    'checkout',
+    'currency'
+];
+
+Watcher.prototype.getAllProperties = function() {
+  var properties = Watcher.properties;
+  return properties.concat(['room_ids']);
+};
+
 Watcher.prototype.asArray = function () {
   var watcher = this;
-  var array = this.properties.reduce(function (accumulator, field) {
+  var array = Watcher.properties.reduce(function (accumulator, field) {
     accumulator.push(watcher[field]);
     return accumulator;
   }, []);
@@ -34,18 +40,18 @@ Watcher.prototype.asArray = function () {
   return array;
 };
 
-Watcher.prototype.loadFromDbRow = function(row) {
+Watcher.prototype.createFromDbRow = function(row) {
   var watcher = this;
-  this.properties.forEach(function (field) {
+  Watcher.properties.forEach(function (field) {
     watcher[field] = row[field];
   });
   this.id = row.id;
   this.room_ids = row.room_ids;
 };
 
-Watcher.prototype.loadFromForm = function(form) {
+Watcher.prototype.createFromForm = function(form) {
   var watcher = this;
-  this.properties.forEach(function (field) {
+  Watcher.properties.forEach(function (field) {
     watcher[field] = form[field] ? form[field].trim() : null;
   });
   this.validateFromForm();
@@ -85,8 +91,8 @@ Watcher.prototype.validateFromForm = function() {
 };
 
 Watcher.prototype.commit = function() {
-  var query = 'INSERT INTO watchers ( ' + this.properties.toString() + ',room_ids ) ' +
-      'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
+  var query = 'INSERT INTO watchers (' + this.getAllProperties() + ') ' +
+      'VALUES (' + Database.makeParamList(this.getAllProperties().length) + ')';
   Database.executeQuery(query, this.asArray());
 };
 
