@@ -6,6 +6,7 @@ var MAX_INT = 2147483646;
 function Watcher() {
   this.room_ids = null;
   this.id = null;
+  this.date_created = null;
 }
 
 Watcher.properties = [
@@ -47,6 +48,7 @@ Watcher.prototype.createFromDbRow = function(row) {
   });
   this.id = row.id;
   this.room_ids = row.room_ids;
+  this.date_created = row.date_created;
 };
 
 Watcher.prototype.createFromForm = function(form) {

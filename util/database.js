@@ -1,6 +1,6 @@
 var pg = require('pg');
-var fs = require('fs');
-var dbInfo = JSON.parse(fs.readFileSync('server_info.json'))['db_info'];
+var Utils = require('../util/utils.js');
+var dbInfo = Utils.serverInfo['db_info'];
 
 var Database = {};
 

@@ -1,6 +1,9 @@
 var https = require('https');
+var fs = require('fs');
 
-var Utils = {};
+var Utils = {
+  serverInfo : JSON.parse(fs.readFileSync('server_info.json'))
+};
 
 Utils.filterInt = function(value) {
   if(/^([0-9]+)$/.test(value)) {

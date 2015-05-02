@@ -1,5 +1,6 @@
 var emailjs = require('emailjs');
 var Utils = require('../util/utils.js');
+var Crypt = require('../util/crypt.js');
 
 var server = emailjs.server.connect({
   host: 'localhost',
@@ -11,8 +12,12 @@ Email = {};
 Email.sendNewRooms = function(watcher, newIds) {
   var text = "Here are your new rooms: \n";
   newIds.forEach(function (roomId) {
-    text += buildRoomLink(watcher, roomId) + "\n";
+    text += buildRoomLink(watcher, roomId) + "\n\n";
   });
+  text += "To cancel this watcher click here: http://104.236.215.4:3000/cancel?";
+  text += "id=" + watcher.id;
+  text += "&token=" + Crypt.getWatcherToken(watcher);
+  text += "\n";
   var subject = newIds.length + ' new rooms found in ' + watcher.location;
 
   server.send({
