@@ -20,13 +20,14 @@ block content
       input(type='text', name='checkout', placeholder='Check Out Date', autocomplete="off")
       div#moveOutContainer
 
-    h3 Price Range
+    h3 Price Range&nbsp;
+      span#price_unit (Per Night)
     div
     p Minimum price:
       input(type='text', name='price_min', placeholder='0', autocomplete="off")
 
     p Maximum price:
-      input(type='text', name='price_max', placeholder='1000+', autocomplete="off")
+      input(type='text', name='price_max', placeholder='1000', autocomplete="off")
 
     p Currency:
       select(name='currency')

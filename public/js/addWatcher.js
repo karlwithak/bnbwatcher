@@ -7,7 +7,8 @@ $(function(){
     })
   });
 
-  var millisecondsInYear = 1000*60*60*24*365;
+  var milliseconsInDay = 1000 * 60 * 60 * 24;
+  var millisecondsInYear = milliseconsInDay * 365;
   var now = new Date();
   var twoYearsFromNow = new Date(now.getTime() + (millisecondsInYear * 2));
 
@@ -43,6 +44,7 @@ $(function(){
       checkout_picker.gotoDate(next_date);
     }
     checkout_picker.setMinDate(next_date);
+    updatePriceUnit();
   });
   
   $checkout.change(function () {
@@ -60,5 +62,21 @@ $(function(){
       checkin_picker.gotoDate(prev_date);
     }
     checkin_picker.setMaxDate(prev_date);
-  })
+    updatePriceUnit();
+  });
+
+  function updatePriceUnit() {
+    var checkin = new Date($checkin.val());
+    var checkout = new Date($checkout.val());
+    if (isNaN(checkin.getTime()) || isNaN(checkout.getTime())) {
+      return;
+    }
+    var $price_unit = $("span#price_unit");
+    if (checkout - checkin >= 28 * milliseconsInDay) {
+      $price_unit.text("(Per Month)");
+    } else {
+      $price_unit.text("(Per Night)");
+    }
+  }
+
 });
