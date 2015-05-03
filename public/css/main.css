@@ -1,8 +1,13 @@
+html {
+  height: 100%;
+}
+
 body {
   padding: 0;
   margin: 0;
   font: 1.3em "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #5FaAFF;
+  height: 100%;
 }
 
 @media (max-width: 500px) {
@@ -13,12 +18,13 @@ body {
 
 p {
   margin: 0;
-  padding: 0;
+  padding: 0.1em 0;
 }
 
 main {
   padding: 1em;
   background-color: white;
+  min-height: calc(100% - 11em);
 }
 
 a {
@@ -58,6 +64,6 @@ section#about_text {
 }
 
 section#footer_text {
-  padding-left: 1em;
+  padding: 1em;
   font-size: 0.9em;
 }

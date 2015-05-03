@@ -1,12 +1,4 @@
 $(function(){
-  $('#signUp').submit(function (e) {
-    e.preventDefault();
-    var form = $('form#signUp');
-    $.post('/add-watcher/', form.serialize(), function (data) {
-      console.log('response: ' + data)
-    })
-  });
-
   var milliseconsInDay = 1000 * 60 * 60 * 24;
   var millisecondsInYear = milliseconsInDay * 365;
   var now = new Date();

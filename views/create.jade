@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  if success
+    p Thanks for creating a new watcher!
+    p You will receive and email whenever new rooms become available that match you criteria.
+    p You have also been sent an email that includes a link you can use to cancel the watcher at any time.
+    p #[a(href="/") Make another!]
+  else
+    p Something went terribly wrong! #[a(href="/") Start over :(]

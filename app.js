@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
-app.use('/add-watcher/', require('./routes/createWatcher'));
+app.use('/create/', require('./routes/createWatcher'));
 app.use('/cancel/', require('./routes/cancelWatcher'));
 
 // catch 404 and forward to error handler

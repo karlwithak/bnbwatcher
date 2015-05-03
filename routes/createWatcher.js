@@ -11,12 +11,16 @@ router.post('/', function(req, res, next) {
       || req.body['location'].length > 1024
       || req.body['location'].length < 1)
   {
-    res.send('fail: invalid email or location');
+    res.render('create', {success: false});
   } else {
     var watcher = new Watcher();
     watcher.createFromForm(req.body);
-    res.send('success: ' + req.body.location + " ");
+    res.render('create', {success: true});
   }
+});
+
+router.get('/', function(req, res, next) {
+  res.render('create', {success: false});
 });
 
 module.exports = router;
