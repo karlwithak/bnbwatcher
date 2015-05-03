@@ -4,8 +4,8 @@ var Database = require('../util/database.js');
 var MAX_INT = 2147483646;
 
 function Watcher() {
-  this.room_ids = null;
   this.id = null;
+  this.room_ids = null;
   this.date_created = null;
 }
 
@@ -26,19 +26,12 @@ Watcher.properties = [
     'currency'
 ];
 
-Watcher.prototype.getAllProperties = function() {
-  var properties = Watcher.properties;
-  return properties.concat(['room_ids']);
-};
-
 Watcher.prototype.asArray = function () {
   var watcher = this;
-  var array = Watcher.properties.reduce(function (accumulator, field) {
+  return Watcher.properties.reduce(function (accumulator, field) {
     accumulator.push(watcher[field]);
     return accumulator;
   }, []);
-  array.push(watcher.room_ids);
-  return array;
 };
 
 Watcher.prototype.createFromDbRow = function(row) {
@@ -57,6 +50,9 @@ Watcher.prototype.createFromForm = function(form) {
     watcher[field] = form[field] ? form[field].trim() : null;
   });
   this.validateFromForm();
+  this.initRoomIds(function () {
+    watcher.saveToDb();
+  });
 };
 
 Watcher.prototype.validateFromForm = function() {
@@ -92,10 +88,22 @@ Watcher.prototype.validateFromForm = function() {
   this.currency = this.currency ? this.currency : null;
 };
 
-Watcher.prototype.commit = function() {
-  var query = 'INSERT INTO watchers (' + this.getAllProperties() + ') ' +
-      'VALUES (' + Database.makeParamList(this.getAllProperties().length) + ')';
-  Database.executeQuery(query, this.asArray());
+Watcher.prototype.saveToDb = function() {
+  var columns = Watcher.properties.concat(['room_ids']);
+  var query = 'INSERT INTO watchers (' + columns + ') ' +
+      'VALUES (' + Database.makeParamList(columns.length) + ')';
+  var values = this.asArray().concat([this.room_ids]);
+  Database.executeQuery(query, values);
+};
+
+Watcher.prototype.archive = function(user_archived) {
+  var columns = Watcher.properties.concat(['id', 'date_created', 'user_archived']);
+  var query = 'INSERT INTO archived_watchers (' + columns + ') ' +
+      'VALUES (' + Database.makeParamList(columns.length) + ')';
+  var values = this.asArray().concat(this.id, this.date_created, user_archived);
+  Database.executeQuery(query, values);
+  query = 'DELETE FROM watchers WHERE id = $1';
+  Database.executeQuery(query, [this.id]);
 };
 
 Watcher.prototype.updateRoomIds = function() {
