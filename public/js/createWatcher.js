@@ -79,4 +79,18 @@ $(function(){
     }
   }
 
+  var $price_min = $('input[name=price_min]');
+  var $price_max = $('input[name=price_max]');
+
+  $price_max.change(function () {
+    if ($price_max.is(':valid')) {
+      $price_min.prop('max', $price_max.val());
+    }
+  });
+
+  $price_min.change(function () {
+    if ($price_min.is(':valid')) {
+      $price_max.prop('min', $price_min.val());
+    }
+  });
 });

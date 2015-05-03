@@ -5,7 +5,8 @@ block content
   form(id='signUp')
     h3 Location
     div
-      input(type='text', name='location', placeholder='City', required="", autocomplete="off")
+      input(type='text', name='location', placeholder='City', required="",
+      autocomplete="off", maxlength='255')
       select(name='number_of_guests')
         option(value="1") 1 Guest
         - var n = 1
@@ -24,10 +25,12 @@ block content
       span#price_unit (Per Night)
     div
     p Minimum price:
-      input(type='text', name='price_min', placeholder='0', autocomplete="off")
+      input(type='number', name='price_min', placeholder='0', autocomplete="off",
+      min='0', max='99999')
 
     p Maximum price:
-      input(type='text', name='price_max', placeholder='1000', autocomplete="off")
+      input(type='number', name='price_max', placeholder='1000', autocomplete="off",
+      min='0', max='99999')
 
     p Currency:
       select(name='currency')
@@ -107,5 +110,6 @@ block content
 
     h3 Create Watcher
     div
-      input(type='email', name='email', placeholder='Email Address', required="", autocomplete="off")
-      input(type='submit', id='submitSignUp', value='Sign Up')
+      input(type='email', name='email', placeholder='Email Address', required="",
+      autocomplete="off", maxlength='255')
+      input(type='submit', id='submitSignUp', value='Create Watcher')
