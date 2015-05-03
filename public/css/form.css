@@ -1,0 +1,60 @@
+input, select {
+  margin: 1em 0.5em 1em 0;
+  border: 0;
+  border-bottom: solid 3px #5FaAFF;
+  background: #F5F5F5;
+  font-size: 1em;
+}
+
+input[type=text], input[type=email] {
+  width: 18em
+}
+
+select {
+  width: 8.75em
+}
+
+select[name=currency], input[type=number] {
+  width: 5.6em
+}
+
+input[type=submit] {
+  border: solid 3px #5FaAFF;
+  cursor: pointer;
+  width: 18em;
+  padding: 0.5em;
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=checkbox]:checked + label.room_type {
+  border: solid 3px #5FaAFF;
+}
+
+label.room_type {
+  padding: 0.5em 1em;
+  width: 3em;
+  margin: 1em 1em 0 0;
+  cursor: pointer;
+  border: solid 3px #555;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+label.room_type:hover, input[type=submit]:hover {
+  background: #f0f6ff
+}
+
+input:focus, select:focus {
+  background: #f0f6ff;
+}
+
+#moveInContainer, #moveOutContainer {
+  width: 260px;
+}
+
