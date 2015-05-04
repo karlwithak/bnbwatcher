@@ -1,5 +1,6 @@
 var Utils = require('../util/utils.js');
 var Database = require('../util/database.js');
+var Email = require('../util/email.js');
 
 var MAX_INT = 2147483646;
 
@@ -89,11 +90,24 @@ Watcher.prototype.validateFromForm = function() {
 };
 
 Watcher.prototype.saveToDb = function() {
+  var watcher = this;
   var columns = Watcher.properties.concat(['room_ids']);
   var query = 'INSERT INTO watchers (' + columns + ') ' +
-      'VALUES (' + Database.makeParamList(columns.length) + ')';
+      'VALUES (' + Database.makeParamList(columns.length) + ') ' +
+      'RETURNING id, date_created';
   var values = this.asArray().concat([this.room_ids]);
-  Database.executeQuery(query, values);
+  Database.executeQuery(query, values, function (result) {
+    console.log(result);
+    var newId = result[0].id;
+    var date_created = result[0].date_created;
+    if (!newId || !date_created) {
+      console.error("invalid id returned from watcher insertion: " + result);
+      return;
+    }
+    watcher.id = newId;
+    watcher.date_created = date_created;
+    Email.sendCreatingWatcher(watcher);
+  });
 };
 
 Watcher.prototype.archive = function(user_archived) {
