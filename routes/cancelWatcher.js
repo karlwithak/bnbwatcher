@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   var id = Utils.filterInt(req.query.id);
   var token = req.query.token;
   if (id === null || token.length !== 40) {
-    res.send('bad params!');
+    res.render('cancel', {success: false});
     return;
   }
   query = "SELECT * FROM watchers WHERE id = $1";
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 
   function cancelWatcher(result) {
     if (result.length !== 1) {
-      res.send("no person found with that id");
+      res.render('cancel', {success: false});
       return;
     }
     var watcher = new Watcher();
@@ -25,9 +25,9 @@ router.get('/', function(req, res, next) {
     var realToken = Crypt.getWatcherToken(watcher);
     if (realToken === token) {
       watcher.archive(true);
-      res.send("good token");
+      res.render('cancel', {success: true});
     } else {
-      res.send("bad token");
+      res.render('cancel', {success: false});
     }
   }
 });
