@@ -3,6 +3,7 @@ var Database = require('../util/database.js');
 var Email = require('../util/email.js');
 
 var MAX_INT = 2147483646;
+var MAX_IDS = 1000;
 
 function Watcher() {
   this.id = null;
@@ -130,7 +131,7 @@ Watcher.prototype.initRoomIds = function(callback) {
     json['listings'].forEach(function (listing) {
       watcher.room_ids.push(listing['listing']['id']);
     });
-    if(watcher.room_ids.length < total_ids) {
+    if (watcher.room_ids.length < total_ids && watcher.room_ids.length < MAX_IDS) {
       Utils.makeHttpsRequest('m.airbnb.com', watcher.buildQuery(watcher.room_ids.length), fetcher);
     } else {
       if (callback) {
