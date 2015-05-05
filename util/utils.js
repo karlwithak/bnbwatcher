@@ -71,4 +71,18 @@ Utils.arrayDiff = function(arr1, arr2) {
   });
 };
 
+Utils.arrayUnion = function(arr1, arr2) {
+  var union = arr1.concat(arr2);
+  union.sort();
+  var lastUnique = 0;
+  return union.filter(function(elem, index, array) {
+    if (index === 0) return true;
+    if (elem === array[lastUnique]) return false;
+    else {
+      lastUnique = index;
+      return true;
+    }
+  })
+};
+
 module.exports = Utils;

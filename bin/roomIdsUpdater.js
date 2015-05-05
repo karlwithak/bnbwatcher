@@ -15,6 +15,7 @@ function updater(result) {
       var newIds = Utils.arrayDiff(currentIds, oldIds);
       if (newIds.length > 0) {
         Email.sendNewRooms(watcher, newIds);
+        watcher.room_ids = Utils.arrayUnion(currentIds, oldIds);
         watcher.updateRoomIds();
       }
     }
