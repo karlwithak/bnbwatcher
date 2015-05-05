@@ -28,29 +28,26 @@ Watcher.properties = [
 ];
 
 Watcher.prototype.asArray = function () {
-  var watcher = this;
-  return Watcher.properties.reduce(function (accumulator, field) {
-    accumulator.push(watcher[field]);
-    return accumulator;
-  }, []);
+  return Watcher.properties.map(function (field) {
+    return this[field];
+  }, this);
 };
 
 Watcher.prototype.createFromDbRow = function(row) {
-  var watcher = this;
   Watcher.properties.forEach(function (field) {
-    watcher[field] = row[field];
-  });
+    this[field] = row[field];
+  }, this);
   this.id = row.id;
   this.room_ids = row.room_ids;
   this.date_created = row.date_created;
 };
 
 Watcher.prototype.createFromForm = function(form) {
-  var watcher = this;
   Watcher.properties.forEach(function (field) {
-    watcher[field] = form[field] ? form[field].trim() : null;
-  });
+    this[field] = form[field] ? form[field].trim() : null;
+  }, this);
   this.validateFromForm();
+  var watcher = this;
   this.initRoomIds(function () {
     watcher.saveToDb();
   });
@@ -97,7 +94,6 @@ Watcher.prototype.saveToDb = function() {
       'RETURNING id, date_created';
   var values = this.asArray().concat([this.room_ids]);
   Database.executeQuery(query, values, function (result) {
-    console.log(result);
     var newId = result[0].id;
     var date_created = result[0].date_created;
     if (!newId || !date_created) {
@@ -106,7 +102,7 @@ Watcher.prototype.saveToDb = function() {
     }
     watcher.id = newId;
     watcher.date_created = date_created;
-    Email.sendCreatingWatcher(watcher);
+    Email.sendCreatedWatcher(watcher);
   });
 };
 

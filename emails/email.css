@@ -1,0 +1,39 @@
+html {
+  width: 100%;
+}
+
+#main {
+  border: 1px solid black;
+
+  width: 100%;
+}
+
+.header, .footer {
+  background-color: #5FaAFF;
+  padding: 10px;
+}
+
+.footer {
+  text-align: right;
+}
+
+.content {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.header a, .footer a {
+  text-decoration: none;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+ul {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+li {
+  margin: 5px 10px;
+}

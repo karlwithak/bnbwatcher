@@ -7,7 +7,7 @@ function archiver(result) {
   result.forEach(function (row) {
     var watcher = new Watcher();
     watcher.createFromDbRow(row);
-    Email.sendArchivingWatcher(watcher);
+    Email.sendArchiving(watcher);
     watcher.archive(false);
   });
 }

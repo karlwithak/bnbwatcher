@@ -1,43 +1,68 @@
 var emailjs = require('emailjs');
 var Utils = require('../util/utils.js');
 var Crypt = require('../util/crypt.js');
+var jade = require('jade');
+var fs = require('fs');
+var juice = require('juice');
 
 var server = emailjs.server.connect({
   host: 'localhost',
   port: 25
 });
 
-Email = {};
+var jadeOptions = {};
+var juiceOptions = {};
+
+Email = {
+  newRoomsGenerator: jade.compileFile('./emails/newRooms.jade', jadeOptions),
+  archivingGenerator: jade.compileFile('./emails/archiving.jade', jadeOptions),
+  createdWatcherGenerator: jade.compileFile('./emails/createdWatcher.jade', jadeOptions),
+  css: fs.readFileSync('./emails/email.css', "utf8")
+};
 
 Email.sendNewRooms = function(watcher, newIds) {
-  var text = "Here are your new rooms: \n";
-  newIds.forEach(function (roomId) {
-    text += buildRoomLink(watcher, roomId) + "\n\n";
-  });
-  text += buildCancelLink(watcher);
+  var roomLinks = newIds.map(function (roomId) {
+    return buildRoomLink(this, roomId);
+  }, this);
+  var locals = {
+    roomLinks: roomLinks,
+    cancelLink: buildCancelLink(watcher),
+    location: watcher.location
+  };
+  var html = Email.newRoomsGenerator(locals);
   var subject = newIds.length + ' new rooms found in ' + watcher.location;
-  sendEmail(text, watcher.email, subject);
+  sendEmail(html, watcher.email, subject);
 };
 
-Email.sendArchivingWatcher = function(watcher) {
-  var text = "You will no longer be getting alerts for this alert. Click here to make a new one";
+Email.sendArchiving = function(watcher) {
+  var locals = {
+    location: watcher.location,
+    date: watcher.checkin ? watcher.checkin : watcher.checkout
+  };
+  var html = Email.archivingGenerator(locals);
   var subject = "Your watcher for " + watcher.location + " has expired!";
-  sendEmail(text, watcher.email, subject);
+  sendEmail(html, watcher.email, subject);
 };
 
-Email.sendCreatingWatcher = function(watcher) {
-  var text = "You have created a new watcher at bnbwatcher.com !\n"
-      + buildCancelLink(watcher);
-  var subject = "Watcher for " + watcher.location + " successfully created!";
-  sendEmail(text, watcher.email, subject);
+Email.sendCreatedWatcher = function(watcher) {
+  var locals = {
+    cancelLink: buildCancelLink(watcher),
+    location: watcher.location
+  };
+  var html = Email.createdWatcherGenerator(locals);
+  var subject = "A new watcher for " + watcher.location + " has been created!";
+  sendEmail(html, watcher.email, subject);
 };
 
-function sendEmail(text, to, subject) {
+function sendEmail(html, to, subject) {
+  var data = juice.inlineContent(html, Email.css, juiceOptions);
   server.send({
-    text: text,
     from: 'test@bnbwatcher.com',
     to: to,
-    subject: subject
+    subject: subject,
+    attachment : [
+      {data : data, alternative : true }
+    ]
   }, function(err, message) {
     if (err) {
       console.log(err);
@@ -54,10 +79,10 @@ function buildCancelLink(watcher) {
 
 function buildRoomLink(watcher, roomId) {
   var link = "https://www.airbnb.com/rooms/" + roomId;
-  if (watcher.checkin !== null) {
+  if (watcher.checkin) {
     link += "?checkin=" + Utils.urlifyDate(watcher.checkin);
   }
-  if (watcher.checkin !== null && watcher.checkout !== null) {
+  if (watcher.checkin && watcher.checkout) {
     link += "&checkout=" + Utils.urlifyDate(watcher.checkout);
   }
   return link;

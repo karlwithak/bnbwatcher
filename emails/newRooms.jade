@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  | Your watcher for #{location} has found #{roomLinks.length} new
+  | room#{roomLinks.length > 1 ? "s" : ""}. Note that some links may not if the room
+  | has already been taken. Click on each link too see the room on Airbnb:
+  ul
+    each link in roomLinks
+      li= link
+
+  br
+  | If you don't know why you got this email, or don't want to receive any more emails for this
+  | watcher, you can cancel it at: #{cancelLink}
+  br
+  br
+  | You can create a new watcher any time at #[a(href="http://bnbwatcher.com") bnbwatcher.com]
+  br
+  br
+  | Thanks for using Bnb Watcher!
