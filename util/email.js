@@ -17,7 +17,7 @@ Email = {
   newRoomsGenerator: jade.compileFile('./emails/newRooms.jade', jadeOptions),
   archivingGenerator: jade.compileFile('./emails/archiving.jade', jadeOptions),
   createdWatcherGenerator: jade.compileFile('./emails/createdWatcher.jade', jadeOptions),
-  css: fs.readFileSync('./emails/email.css', 'utf8')
+  css: fs.readFileSync('./public/css/email.css', 'utf8')
 };
 
 Email.sendNewRooms = function(watcher, newIds) {

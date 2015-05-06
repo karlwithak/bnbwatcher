@@ -1,32 +1,39 @@
+@import "globals";
+
+.head-foot() {
+  background-color: @main-blue;
+  padding: 10px;
+
+  a {
+    text-decoration: none;
+    color: @white;
+    font-size: 25px;
+    font-weight: bold;
+  }
+}
+
 html {
   width: 100%;
 }
 
 #main {
   border: 1px solid black;
-
+  font: @font
   width: 100%;
 }
 
-.header, .footer {
-  background-color: #5FaAFF;
-  padding: 10px;
+.header{
+  .head-foot();
 }
 
 .footer {
+  .head-foot();
   text-align: right;
 }
 
 .content {
   padding: 10px;
   font-size: 16px;
-}
-
-.header a, .footer a {
-  text-decoration: none;
-  color: white;
-  font-size: 25px;
-  font-weight: bold;
 }
 
 ul {

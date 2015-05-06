@@ -1,3 +1,5 @@
+@import "globals";
+
 html {
   height: 100%;
 }
@@ -5,13 +7,11 @@ html {
 body {
   padding: 0;
   margin: 0;
-  font: 1.3em 'Lucida Grande', Helvetica, Arial, sans-serif;
-  background-color: #5FaAFF;
+  font: @font;
+  background-color: @main-blue;
   height: 100%;
-}
 
-@media (max-width: 500px) {
-  body {
+  @media (max-width: 500px) {
     font-size: 1em;
   }
 }
@@ -23,8 +23,8 @@ p {
 
 main {
   padding: 1em;
-  background-color: white;
-  min-height: calc(100% - 11em);
+  background-color: @white;
+  min-height: calc(~"100% - 11em");
 }
 
 a {
@@ -35,10 +35,10 @@ a {
 footer#footer_bar, header#header_bar {
   width: 100%;
   color: black;
-}
 
-footer#footer_bar a, header#header_bar a {
-  color: white;
+  a {
+    color: @white;
+  }
 }
 
 h1, h2, h3 {
@@ -57,13 +57,13 @@ h1#title {
 section {
   padding-top: 0.5em;
   padding-bottom: 1em;
-}
 
-section#about_text {
-  font-size: 1.1em;
-}
+  &#about_text {
+    font-size: 1.1em;
+  }
 
-section#footer_text {
-  padding: 1em;
-  font-size: 0.9em;
+  &#footer_text {
+    padding: 1em;
+    font-size: 0.9em;
+  }
 }

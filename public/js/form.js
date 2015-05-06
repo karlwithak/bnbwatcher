@@ -90,30 +90,24 @@ $(function(){
 
   var $location_field = $('input[name=location]');
   var $prediction_list = $('ul#predictions');
+  var prediction_items = $prediction_list.find("li");
   $location_field.on('input propertychange paste', handleLocationChange);
 
   function handleLocationChange() {
-    if ($location_field.val().length === 0) {
-      $prediction_list.empty();
-      return;
-    }
+    if ($location_field.val().length === 0) return;
     locationService.getPlacePredictions({
-      input: $location_field.val(),
-      types: ['geocode']}
-    , updateLocationPredictions);
+          input: $location_field.val(),
+          types: ['geocode']
+        },
+        updateLocationPredictions);
   }
 
   function updateLocationPredictions(locations, status) {
     if (!locations) return;
-    var prediction_items = $prediction_list.find("li");
     locations.forEach(function (location, index) {
-      if (prediction_items.length <= index) {
-        $prediction_list.append(
-            $('<li>').append(location.description)
-        );
-      } else {
-        prediction_items.eq(index).text(location.description);
-      }
+      prediction_items.eq(index).text(location.description);
     })
   }
+
+
 }());

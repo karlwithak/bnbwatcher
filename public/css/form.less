@@ -1,0 +1,105 @@
+@import "main";
+
+@field-width:  18em;
+@number-width: 5.6em;
+@select-width: 8.75em;
+@spacing:      1em;
+
+// Mixins
+.styled-fields() {
+  margin: @spacing @spacing/2 @spacing 0;
+  border: 0;
+  border-bottom: @blue-border;
+  background: @light-grey;
+  font-size: @spacing;
+  &:focus {
+    background: @light-blue;
+  }
+}
+.un-selectable() {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input {
+  .styled-fields();
+
+  &[type=text], &[type=email] {
+    width: @field-width;
+  }
+  &[type=number] {
+    width: @number-width;
+  }
+  &[type=submit] {
+    border: @blue-border;
+    cursor: pointer;
+    width: @field-width;
+    padding: @spacing/2;
+  }
+  &[type=checkbox] {
+    display: none;
+  }
+  &[type=checkbox]:checked + label.room_type {
+    border: @blue-border;
+    background-color: @light-grey;
+  }
+  &[name=location] {
+    margin-bottom: 0;
+  }
+  &[name=location]:not(:focus) ~ div#location_prediction {
+    display: none;
+  }
+  &[name=location]:focus ~ div#location_prediction {
+    display: block;
+  }
+}
+
+select {
+  width: @select-width;
+  .styled-fields();
+
+  &[name=currency] {
+    width: @number-width;
+  }
+}
+
+label.room_type {
+  padding: @spacing/4 @spacing;
+  width: 3em;
+  margin: @spacing @spacing 0 0;
+  cursor: pointer;
+  border: solid 3px #555;
+  display: inline-block;
+  text-align: center;
+  .un-selectable
+}
+
+label.room_type:hover, input[type=submit]:hover {
+  background: @light-blue;
+}
+
+#moveInContainer, #moveOutContainer {
+  width: 260px;
+}
+
+div#location_prediction {
+  background-color: @light-grey;
+}
+
+ul {
+  &#predictions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      min-width: 100px;
+
+      &:empty {
+        display: none;
+      }
+    }
+  }
+}
