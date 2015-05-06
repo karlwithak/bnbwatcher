@@ -18,7 +18,7 @@ Crypt.getWatcherToken = function(watcher) {
   tokenProperties.forEach(function (property) {
     var val = watcher[property];
     if (val === undefined || val === null) {
-      console.error("tried to make token for incomplete watcher: " + watcher);
+      console.error('tried to make token for incomplete watcher: ' + watcher);
       throw new Error;
     }
     sha.update(JSON.stringify(val));

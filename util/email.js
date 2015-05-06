@@ -17,7 +17,7 @@ Email = {
   newRoomsGenerator: jade.compileFile('./emails/newRooms.jade', jadeOptions),
   archivingGenerator: jade.compileFile('./emails/archiving.jade', jadeOptions),
   createdWatcherGenerator: jade.compileFile('./emails/createdWatcher.jade', jadeOptions),
-  css: fs.readFileSync('./emails/email.css', "utf8")
+  css: fs.readFileSync('./emails/email.css', 'utf8')
 };
 
 Email.sendNewRooms = function(watcher, newIds) {
@@ -40,7 +40,7 @@ Email.sendArchiving = function(watcher) {
     date: watcher.checkin ? watcher.checkin : watcher.checkout
   };
   var html = Email.archivingGenerator(locals);
-  var subject = "Your watcher for " + watcher.location + " has expired!";
+  var subject = 'Your watcher for ' + watcher.location + ' has expired!';
   sendEmail(html, watcher.email, subject);
 };
 
@@ -50,7 +50,7 @@ Email.sendCreatedWatcher = function(watcher) {
     location: watcher.location
   };
   var html = Email.createdWatcherGenerator(locals);
-  var subject = "A new watcher for " + watcher.location + " has been created!";
+  var subject = 'A new watcher for ' + watcher.location + ' has been created!';
   sendEmail(html, watcher.email, subject);
 };
 
@@ -71,19 +71,19 @@ function sendEmail(html, to, subject) {
 }
 
 function buildCancelLink(watcher) {
-  return "To cancel this watcher click here: http://104.236.215.4:3000/cancel?"
-      + "id=" + watcher.id
-      + "&token=" + Crypt.getWatcherToken(watcher)
-      + "\n";
+  return 'To cancel this watcher click here: http://104.236.215.4:3000/cancel?'
+      + 'id=' + watcher.id
+      + '&token=' + Crypt.getWatcherToken(watcher)
+      + '\n';
 }
 
 function buildRoomLink(watcher, roomId) {
-  var link = "https://www.airbnb.com/rooms/" + roomId;
+  var link = 'https://www.airbnb.com/rooms/' + roomId;
   if (watcher.checkin) {
-    link += "?checkin=" + Utils.urlifyDate(watcher.checkin);
+    link += '?checkin=' + Utils.urlifyDate(watcher.checkin);
   }
   if (watcher.checkin && watcher.checkout) {
-    link += "&checkout=" + Utils.urlifyDate(watcher.checkout);
+    link += '&checkout=' + Utils.urlifyDate(watcher.checkout);
   }
   return link;
 }

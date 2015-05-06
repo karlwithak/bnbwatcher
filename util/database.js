@@ -38,7 +38,7 @@ Database.getClient = function() {
 Database.makeParamList = function(size) {
   var list = '';
   for (var i = 1; i <= size; i++) {
-    list += '$' + i + ",";
+    list += '$' + i + ',';
   }
   return list.slice(0, -1);
 };

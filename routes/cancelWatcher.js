@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
     res.render('cancel', {success: false});
     return;
   }
-  query = "SELECT * FROM watchers WHERE id = $1";
+  query = 'SELECT * FROM watchers WHERE id = $1';
   Database.executeQuery(query, [id], cancelWatcher);
 
   function cancelWatcher(result) {

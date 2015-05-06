@@ -11,14 +11,14 @@ $(function(){
     field: $checkin[0],
     minDate: now,
     maxDate: twoYearsFromNow,
-    container: $("#moveInContainer")[0]
+    container: $('#moveInContainer')[0]
   });
 
   var checkout_picker = new Pikaday({
     field: $checkout[0],
     minDate: now,
     maxDate: twoYearsFromNow,
-    container: $("#moveOutContainer")[0]
+    container: $('#moveOutContainer')[0]
   });
   
   $checkin.change(function () {
@@ -63,11 +63,11 @@ $(function(){
     if (isNaN(checkin.getTime()) || isNaN(checkout.getTime())) {
       return;
     }
-    var $price_unit = $("span#price_unit");
+    var $price_unit = $('span#price_unit');
     if (checkout - checkin >= 28 * milliseconsInDay) {
-      $price_unit.text("(Per Month)");
+      $price_unit.text('(Per Month)');
     } else {
-      $price_unit.text("(Per Night)");
+      $price_unit.text('(Per Night)');
     }
   }
 

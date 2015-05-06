@@ -98,7 +98,7 @@ Watcher.prototype.saveToDb = function() {
     var newId = result[0].id;
     var date_created = result[0].date_created;
     if (!newId || !date_created) {
-      console.error("invalid id returned from watcher insertion: " + result);
+      console.error('invalid id returned from watcher insertion: ' + result);
       return;
     }
     watcher.id = newId;

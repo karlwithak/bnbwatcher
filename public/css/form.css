@@ -34,12 +34,13 @@ input[type=checkbox]:checked + label.room_type {
 }
 
 label.room_type {
-  padding: 0.5em 1em;
+  padding: 0.25em 1em;
   width: 3em;
   margin: 1em 1em 0 0;
   cursor: pointer;
   border: solid 3px #555;
   display: inline-block;
+  text-align: center;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
