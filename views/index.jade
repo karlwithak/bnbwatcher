@@ -6,7 +6,8 @@ block append stylesheets
 
 block append scripts
   script(type='text/javascript', src='/js/pikaday.min.js')
-  script(type='text/javascript', src='/js/createWatcher.js')
+  script(type='text/javascript', src='//maps.googleapis.com/maps/api/js?libraries=places')
+  script(type='text/javascript', src='/js/form.js')
 
 block content
   section#about_text
@@ -17,6 +18,8 @@ block content
       h3 Location
       input(type='text', name='location', placeholder='City', required='',
       autocomplete='off', maxlength='255')
+      div#location_prediction
+        ul#predictions
 
     section
       h3 Dates
