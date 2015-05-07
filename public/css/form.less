@@ -48,10 +48,10 @@ input {
   &[name=location] {
     margin-bottom: 0;
   }
-  &[name=location]:not(:focus) ~ div#location_prediction {
+  &[name=location]:not(:focus) ~ ul#predictions:not(:focus) {
     display: none;
   }
-  &[name=location]:focus ~ div#location_prediction {
+  &[name=location]:focus ~ ul#predictions {
     display: block;
   }
 }
@@ -84,22 +84,20 @@ label.room_type:hover, input[type=submit]:hover {
   width: 260px;
 }
 
-div#location_prediction {
+ul#predictions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   background-color: @light-grey;
-}
 
-ul {
-  &#predictions {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  & > li {
+    cursor: pointer;
 
-    & > li {
-      min-width: 100px;
-
-      &:empty {
-        display: none;
-      }
+    &:hover {
+      background-color: @light-blue;
+    }
+    &:empty {
+      display: none;
     }
   }
 }

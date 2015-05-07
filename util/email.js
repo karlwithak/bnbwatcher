@@ -73,8 +73,7 @@ function sendEmail(html, to, subject) {
 function buildCancelLink(watcher) {
   return 'To cancel this watcher click here: http://104.236.215.4:3000/cancel?'
       + 'id=' + watcher.id
-      + '&token=' + Crypt.getWatcherToken(watcher)
-      + '\n';
+      + '&token=' + Crypt.getWatcherToken(watcher);
 }
 
 function buildRoomLink(watcher, roomId) {

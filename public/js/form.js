@@ -87,14 +87,19 @@ $(function(){
   });
 
   var locationService = new google.maps.places.AutocompleteService();
-
   var $location_field = $('input[name=location]');
   var $prediction_list = $('ul#predictions');
-  var prediction_items = $prediction_list.find("li");
+  var $prediction_items = $prediction_list.find("li");
+
   $location_field.on('input propertychange paste', handleLocationChange);
 
   function handleLocationChange() {
-    if ($location_field.val().length === 0) return;
+    if ($location_field.val().length === 0) {
+      $prediction_items.hide();
+      return;
+    } else {
+      $prediction_items.show();
+    }
     locationService.getPlacePredictions({
           input: $location_field.val(),
           types: ['geocode']
@@ -105,9 +110,11 @@ $(function(){
   function updateLocationPredictions(locations, status) {
     if (!locations) return;
     locations.forEach(function (location, index) {
-      prediction_items.eq(index).text(location.description);
+      $prediction_items.eq(index).text(location.description);
     })
   }
 
-
+  $prediction_items.on('mousedown', function () {
+    $location_field.val(this.innerHTML);
+  })
 }());
