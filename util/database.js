@@ -5,7 +5,7 @@ var dbInfo = Utils.serverInfo['db_info'];
 var Database = {};
 
 Database.executeQuery = function(query, data, callback) {
-  var client = Database.getClient();
+  var client = new pg.Client(dbInfo);
   client.connect(function(err) {
     if (err) {
       return console.error('could not connect to postgres', err);
@@ -22,16 +22,6 @@ Database.executeQuery = function(query, data, callback) {
           client.end();
         }
     );
-  });
-};
-
-Database.getClient = function() {
-  return new pg.Client({
-    user: dbInfo['user'],
-    password: dbInfo['pass'],
-    database: dbInfo['name'],
-    host: dbInfo['host'],
-    port: dbInfo['port']
   });
 };
 

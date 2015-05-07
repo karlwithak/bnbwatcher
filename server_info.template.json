@@ -1,8 +1,8 @@
 {
   "db_info": {
-    "name": "",
+    "database": "",
     "user": "",
-    "pass": "",
+    "password": "",
     "port": 5432,
     "host": "localhost"
   },
