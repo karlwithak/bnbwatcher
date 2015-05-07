@@ -1,4 +1,5 @@
 $(function(){
+  // Calendar logic
   var milliseconsInDay = 1000 * 60 * 60 * 24;
   var millisecondsInYear = milliseconsInDay * 365;
   var now = new Date();
@@ -71,6 +72,8 @@ $(function(){
     }
   }
 
+
+  // Price logic
   var $price_min = $('input[name=price_min]');
   var $price_max = $('input[name=price_max]');
 
@@ -86,6 +89,8 @@ $(function(){
     }
   });
 
+
+  // Location logic
   var locationService = new google.maps.places.AutocompleteService();
   var $location_field = $('input[name=location]');
   var $prediction_list = $('ul#predictions');

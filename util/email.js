@@ -5,10 +5,8 @@ var jade = require('jade');
 var fs = require('fs');
 var juice = require('juice');
 
-var server = emailjs.server.connect({
-  host: 'localhost',
-  port: 25
-});
+var emailInfo = Utils.serverInfo['email_info'];
+var server = emailjs.server.connect(emailInfo);
 
 var jadeOptions = {};
 var juiceOptions = {};
@@ -57,7 +55,7 @@ Email.sendCreatedWatcher = function(watcher) {
 function sendEmail(html, to, subject) {
   var data = juice.inlineContent(html, Email.css, juiceOptions);
   server.send({
-    from: 'test@bnbwatcher.com',
+    from: 'Bnb Watcher <info@bnbwatcher.com>',
     to: to,
     subject: subject,
     attachment : [
