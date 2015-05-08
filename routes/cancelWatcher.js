@@ -13,8 +13,11 @@ router.get('/', function(req, res, next) {
   if (!id || !token) {
     res.render('cancel', {success: false, noParams: true});
     return;
+  } else if (token.length !== 40) {
+    res.render('cancel', {success: false});
+    return;
   }
-  var query = 'SELECT * FROM watchers WHERE id = $1';
+  var query = 'SELECT * FROM watchers WHERE id = $1 AND NOT archived';
   Database.executeQuery(query, [id], cancelWatcher);
 
   function cancelWatcher(result) {
@@ -26,7 +29,7 @@ router.get('/', function(req, res, next) {
     watcher.createFromDbRow(result[0]);
     var realToken = Crypt.getWatcherToken(watcher);
     if (realToken === token) {
-      watcher.archive(true);
+      watcher.archive();
       res.render('cancel', {success: true});
     } else {
       res.render('cancel', {success: false});

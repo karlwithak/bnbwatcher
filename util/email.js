@@ -30,7 +30,9 @@ Email.sendNewRooms = function(watcher, newIds) {
     location: watcher.location
   };
   var html = Email.newRoomsGenerator(locals);
-  var subject = newIds.length + ' new rooms found in ' + watcher.location;
+  var subject = newIds.length +
+      newIds.length === 1 ? ' new room' : ' new rooms' +
+      ' found in ' + watcher.location;
   sendEmail(html, watcher.email, subject);
 };
 

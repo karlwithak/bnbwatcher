@@ -9,8 +9,11 @@ function archiver(result) {
     var watcher = new Watcher();
     watcher.createFromDbRow(row);
     Email.sendArchiving(watcher);
-    watcher.archive(false);
+    watcher.archive();
   });
 }
-var query = 'SELECT * FROM watchers WHERE checkin < current_date OR checkout < current_date';
+var query =
+    'SELECT * FROM watchers ' +
+    'WHERE checkin < current_date OR checkout < current_date ' +
+    'AND NOT archived';
 Database.executeQuery(query, [], archiver);

@@ -8,14 +8,14 @@ var Utils = {
 };
 
 Utils.filterInt = function(value) {
-  if (/^([0-9]+)$/.test(value)) {
+  if (/^([0-9]{1,16})$/.test(value)) {
     return Number(value);
   }
   return null;
 };
 
 Utils.filterHalfInt = function(value) {
-  if (/^([0-9]*)(\.5)?$/.test(value)) {
+  if (/^([0-9]{1,16})(\.5)?$/.test(value)) {
     return Number(value);
   }
   return null;

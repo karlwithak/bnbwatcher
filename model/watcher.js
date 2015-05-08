@@ -92,7 +92,8 @@ Watcher.prototype.validateFromForm = function() {
 Watcher.prototype.saveToDb = function() {
   var watcher = this;
   var columns = Watcher.properties.concat(['room_ids']);
-  var query = 'INSERT INTO watchers (' + columns + ') ' +
+  var query =
+      'INSERT INTO watchers (' + columns + ') ' +
       'VALUES (' + Database.makeParamList(columns.length) + ') ' +
       'RETURNING id, date_created';
   var values = this.asArray().concat([this.room_ids]);
@@ -109,18 +110,17 @@ Watcher.prototype.saveToDb = function() {
   });
 };
 
-Watcher.prototype.archive = function(user_archived) {
-  var columns = Watcher.properties.concat(['id', 'date_created', 'user_archived']);
-  var query = 'INSERT INTO archived_watchers (' + columns + ') ' +
-      'VALUES (' + Database.makeParamList(columns.length) + ')';
-  var values = this.asArray().concat(this.id, this.date_created, user_archived);
-  Database.executeQuery(query, values);
-  query = 'DELETE FROM watchers WHERE id = $1';
+Watcher.prototype.archive = function() {
+  var query =
+      'UPDATE watchers ' +
+      'SET (archived, date_archived, room_ids) = (TRUE, NOW(), NULL) ' +
+      'WHERE id = $1';
   Database.executeQuery(query, [this.id]);
 };
 
 Watcher.prototype.updateRoomIds = function() {
-  var query = 'UPDATE watchers SET room_ids = $1 ' +
+  var query =
+      'UPDATE watchers SET room_ids = $1 ' +
       'WHERE id = $2';
   Database.executeQuery(query, [this.room_ids, this.id]);
 };
@@ -131,7 +131,7 @@ Watcher.prototype.initRoomIds = function(callback) {
   function fetcher(json) {
     var total_ids = json['listings_count'];
     json['listings'].forEach(function (listing) {
-      watcher.room_ids.push(listing['listing.id']);
+      watcher.room_ids.push(listing['listing']['id']);
     });
     if (watcher.room_ids.length < total_ids && watcher.room_ids.length < MAX_IDS) {
       Utils.makeHttpsRequest('m.airbnb.com', watcher.buildQuery(watcher.room_ids.length), fetcher);

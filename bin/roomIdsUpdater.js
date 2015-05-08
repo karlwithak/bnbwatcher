@@ -23,5 +23,5 @@ function updater(result) {
     }
   });
 }
-var query = 'SELECT * FROM watchers';
+var query = 'SELECT * FROM watchers WHERE NOT archived';
 Database.executeQuery(query, [], updater);
