@@ -149,10 +149,12 @@ Watcher.prototype.buildQuery = function(offset) {
       + Utils.addParam('price_min', this.price_min)
       + Utils.addParam('price_max', this.price_max)
       + Utils.addParam('min_bedrooms', this.min_bedrooms)
-      + Utils.addParam('min_bathrooms', this.min_bathrooms / 10)
       + Utils.addParam('min_beds', this.min_beds)
       + Utils.addParam('currency', this.currency)
       + Utils.addParam('offset', offset);
+  if (this.min_bathrooms !== null) {
+    query += Utils.addParam('min_bathrooms', this.min_bathrooms / 10)
+  }
   if (this.room_type_entire) {
     query += Utils.addParam('room_types[]', 'Entire+room');
   }

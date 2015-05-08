@@ -29,7 +29,7 @@ Utils.filterDate = function(value) {
 };
 
 Utils.clampInt = function(low, value, hi) {
-  if (value === null) return null;
+  if (value === null || value === undefined) return null;
   return Math.max(low, Math.min(value, hi));
 };
 

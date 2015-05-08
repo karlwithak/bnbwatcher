@@ -87,7 +87,8 @@ block content
     section
       h3 Size
       select(name='number_of_guests')
-        option(value='1') Guests
+        option(value='') Guests
+        option(value='1') Guest
         - var n = 0
         while n < 16
           option(value='#{++n}') #{n} Guests
