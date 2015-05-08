@@ -1,3 +1,5 @@
+'use strict';
+
 var emailjs = require('emailjs');
 var Utils = require('../util/utils.js');
 var Crypt = require('../util/crypt.js');
@@ -11,7 +13,7 @@ var server = emailjs.server.connect(emailInfo);
 var jadeOptions = {};
 var juiceOptions = {};
 
-Email = {
+var Email = {
   newRoomsGenerator: jade.compileFile('./emails/newRooms.jade', jadeOptions),
   archivingGenerator: jade.compileFile('./emails/archiving.jade', jadeOptions),
   createdWatcherGenerator: jade.compileFile('./emails/createdWatcher.jade', jadeOptions),
@@ -69,9 +71,9 @@ function sendEmail(html, to, subject) {
 }
 
 function buildCancelLink(watcher) {
-  return 'To cancel this watcher click here: http://104.236.215.4:3000/cancel?'
-      + 'id=' + watcher.id
-      + '&token=' + Crypt.getWatcherToken(watcher);
+  return 'To cancel this watcher click here: http://104.236.215.4:3000/cancel?' +
+      'id=' + watcher.id +
+      '&token=' + Crypt.getWatcherToken(watcher);
 }
 
 function buildRoomLink(watcher, roomId) {

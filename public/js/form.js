@@ -1,3 +1,5 @@
+'use strict';
+
 $(function(){
   // Calendar logic
   var milliseconsInDay = 1000 * 60 * 60 * 24;
@@ -116,10 +118,10 @@ $(function(){
     if (!locations) return;
     locations.forEach(function (location, index) {
       $prediction_items.eq(index).text(location.description);
-    })
+    });
   }
 
   $prediction_items.on('mousedown', function () {
     $location_field.val(this.innerHTML);
-  })
+  });
 }());

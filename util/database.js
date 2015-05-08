@@ -1,3 +1,5 @@
+'use strict';
+
 var pg = require('pg');
 var Utils = require('../util/utils.js');
 var dbInfo = Utils.serverInfo['db_info'];

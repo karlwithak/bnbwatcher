@@ -1,3 +1,5 @@
+'use strict';
+
 var Utils = require('../util/utils.js');
 var Database = require('../util/database.js');
 var Email = require('../util/email.js');
@@ -129,7 +131,7 @@ Watcher.prototype.initRoomIds = function(callback) {
   function fetcher(json) {
     var total_ids = json['listings_count'];
     json['listings'].forEach(function (listing) {
-      watcher.room_ids.push(listing['listing']['id']);
+      watcher.room_ids.push(listing['listing.id']);
     });
     if (watcher.room_ids.length < total_ids && watcher.room_ids.length < MAX_IDS) {
       Utils.makeHttpsRequest('m.airbnb.com', watcher.buildQuery(watcher.room_ids.length), fetcher);
@@ -143,17 +145,17 @@ Watcher.prototype.initRoomIds = function(callback) {
 };
 
 Watcher.prototype.buildQuery = function(offset) {
-  var query = '/api/-/v1/listings/search?items_per_page=50'
-      + Utils.addParam('location', this.location.replace(/ /g, '+'))
-      + Utils.addParam('number_of_guests', this.number_of_guests)
-      + Utils.addParam('price_min', this.price_min)
-      + Utils.addParam('price_max', this.price_max)
-      + Utils.addParam('min_bedrooms', this.min_bedrooms)
-      + Utils.addParam('min_beds', this.min_beds)
-      + Utils.addParam('currency', this.currency)
-      + Utils.addParam('offset', offset);
+  var query = '/api/-/v1/listings/search?items_per_page=50' +
+      Utils.addParam('location', this.location.replace(/ /g, '+')) +
+      Utils.addParam('number_of_guests', this.number_of_guests) +
+      Utils.addParam('price_min', this.price_min) +
+      Utils.addParam('price_max', this.price_max) +
+      Utils.addParam('min_bedrooms', this.min_bedrooms) +
+      Utils.addParam('min_beds', this.min_beds) +
+      Utils.addParam('currency', this.currency) +
+      Utils.addParam('offset', offset);
   if (this.min_bathrooms !== null) {
-    query += Utils.addParam('min_bathrooms', this.min_bathrooms / 10)
+    query += Utils.addParam('min_bathrooms', this.min_bathrooms / 10);
   }
   if (this.room_type_entire) {
     query += Utils.addParam('room_types[]', 'Entire+room');
@@ -165,10 +167,10 @@ Watcher.prototype.buildQuery = function(offset) {
     query += Utils.addParam('room_types[]', 'Shared+room');
   }
   if (this.checkin !== null) {
-    query += Utils.addParam('checkin', Utils.urlifyDate(this.checkin))
+    query += Utils.addParam('checkin', Utils.urlifyDate(this.checkin));
   }
   if (this.checkout !== null) {
-    query += Utils.addParam('checkout', Utils.urlifyDate(this.checkout))
+    query += Utils.addParam('checkout', Utils.urlifyDate(this.checkout));
   }
   return query;
 };

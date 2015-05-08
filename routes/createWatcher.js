@@ -1,15 +1,17 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var Watcher = require('../model/watcher.js');
 
 /* Post new watcher. */
 router.post('/', function(req, res, next) {
-  if (!req.body['email']
-      || req.body['email'].length > 254
-      || req.body['email'].length < 5
-      || !req.body['location']
-      || req.body['location'].length > 1024
-      || req.body['location'].length < 1)
+  if (!req.body['email'] ||
+      req.body['email'].length > 254 ||
+      req.body['email'].length < 5 ||
+      !req.body['location'] ||
+      req.body['location'].length > 1024 ||
+      req.body['location'].length < 1)
   {
     res.render('create', {success: false});
   } else {

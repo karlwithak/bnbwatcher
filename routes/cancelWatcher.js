@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var Utils = require('../util/utils.js');
 var Watcher = require('../model/watcher.js');
@@ -12,7 +14,7 @@ router.get('/', function(req, res, next) {
     res.render('cancel', {success: false, noParams: true});
     return;
   }
-  query = 'SELECT * FROM watchers WHERE id = $1';
+  var query = 'SELECT * FROM watchers WHERE id = $1';
   Database.executeQuery(query, [id], cancelWatcher);
 
   function cancelWatcher(result) {

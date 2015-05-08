@@ -1,3 +1,5 @@
+'use strict';
+
 var https = require('https');
 var fs = require('fs');
 
@@ -6,15 +8,15 @@ var Utils = {
 };
 
 Utils.filterInt = function(value) {
-  if(/^([0-9]+)$/.test(value)) {
+  if (/^([0-9]+)$/.test(value)) {
     return Number(value);
   }
   return null;
 };
 
 Utils.filterHalfInt = function(value) {
-  if(/^([0-9]*)(\.5)?$/.test(value)) {
-    return Number(value)
+  if (/^([0-9]*)(\.5)?$/.test(value)) {
+    return Number(value);
   }
   return null;
 };
@@ -38,7 +40,7 @@ Utils.addParam = function(paramName, paramVal){
   if (paramName !== null && paramVal !== null) {
     return '&' + paramName + '=' + paramVal;
   }
-  else return ''
+  else return '';
 };
 
 Utils.makeHttpsRequest = function(host, path, callback) {
@@ -82,7 +84,7 @@ Utils.arrayUnion = function(arr1, arr2) {
       lastUnique = index;
       return true;
     }
-  })
+  });
 };
 
 module.exports = Utils;

@@ -1,4 +1,5 @@
-var Utils = require('../util/utils.js');
+'use strict';
+
 var Watcher = require('../model/watcher.js');
 var Database = require('../util/database.js');
 var Email = require('../util/email.js');

@@ -1,3 +1,5 @@
+'use strict';
+
 var crypto = require('crypto');
 var Utils = require('../util/utils.js');
 var Watcher = require('../model/watcher.js');
@@ -19,7 +21,6 @@ Crypt.getWatcherToken = function(watcher) {
     var val = watcher[property];
     if (val === undefined || val === null) {
       console.error('tried to make token for incomplete watcher: ' + watcher);
-      throw new Error;
     }
     sha.update(JSON.stringify(val));
   });
