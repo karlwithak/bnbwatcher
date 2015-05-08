@@ -1,0 +1,14 @@
+extends emailLayout
+
+block content
+  | Your watcher for #{location} has found #{roomLinks.length} new
+  | room#{roomLinks.length > 1 ? 's' : ''}. Note that some links may not work if the room
+  | has already been taken. Click on each link too see the room on Airbnb:
+  ul
+    each link in roomLinks
+      li= link
+  br
+
+block prepend details
+  | If you don't want to receive any more emails for this watcher, you can
+  |  #[a(href='#{cancelLink}') cancel it here.]

@@ -1,0 +1,9 @@
+extends emailLayout
+
+block content
+  | You have created a new watcher for #{location} at Bnb Watcher!
+  br
+
+block prepend details
+  | If you don't want to receive any more emails for this watcher, you can
+  |  #[a(href='#{cancelLink}') cancel it here.]

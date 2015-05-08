@@ -14,9 +14,9 @@ var jadeOptions = {};
 var juiceOptions = {};
 
 var Email = {
-  newRoomsGenerator: jade.compileFile('./emails/newRooms.jade', jadeOptions),
-  archivingGenerator: jade.compileFile('./emails/archiving.jade', jadeOptions),
-  createdWatcherGenerator: jade.compileFile('./emails/createdWatcher.jade', jadeOptions),
+  newRoomsGenerator: jade.compileFile('./views/emails/newRooms.jade', jadeOptions),
+  archivingGenerator: jade.compileFile('./views/emails/archiving.jade', jadeOptions),
+  createdWatcherGenerator: jade.compileFile('./views/emails/createdWatcher.jade', jadeOptions),
   css: fs.readFileSync('./public/css/email.css', 'utf8')
 };
 
@@ -27,6 +27,7 @@ Email.sendNewRooms = function(watcher, newIds) {
   var locals = {
     roomLinks: roomLinks,
     cancelLink: buildCancelLink(watcher),
+    unsubscribe: buildUnsubscribeLink(watcher),
     location: watcher.location
   };
   var html = Email.newRoomsGenerator(locals);
@@ -39,6 +40,7 @@ Email.sendNewRooms = function(watcher, newIds) {
 Email.sendArchiving = function(watcher) {
   var locals = {
     location: watcher.location,
+    unsubscribe: buildUnsubscribeLink(watcher),
     date: watcher.checkin ? watcher.checkin : watcher.checkout
   };
   var html = Email.archivingGenerator(locals);
@@ -49,6 +51,7 @@ Email.sendArchiving = function(watcher) {
 Email.sendCreatedWatcher = function(watcher) {
   var locals = {
     cancelLink: buildCancelLink(watcher),
+    unsubscribe: buildUnsubscribeLink(watcher),
     location: watcher.location
   };
   var html = Email.createdWatcherGenerator(locals);
@@ -73,9 +76,15 @@ function sendEmail(html, to, subject) {
 }
 
 function buildCancelLink(watcher) {
-  return 'To cancel this watcher click here: http://104.236.215.4:3000/cancel?' +
+  return 'http://104.236.215.4:3000/cancel?' +
       'id=' + watcher.id +
       '&token=' + Crypt.getWatcherToken(watcher);
+}
+
+function buildUnsubscribeLink(watcher) {
+  return 'http://104.236.215.4:3000/unsubscribe?' +
+      'email=' + watcher.email +
+      '&token=' + Crypt.getUnsubscribeToken(watcher.email);
 }
 
 function buildRoomLink(watcher, roomId) {

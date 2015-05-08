@@ -13,6 +13,9 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('view options', {
+  layout: false
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -26,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/index'));
 app.use('/create/', require('./routes/createWatcher'));
 app.use('/cancel/', require('./routes/cancelWatcher'));
+app.use('/unsubscribe/', require('./routes/unsubscribe'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  if success
+    p You(#{email}) have now been unsubscribed from all watchers.
+    | You should receive no more emails from Bnb Watcher.
+    p If you have any comments or concerns, please email info@bnbwatcher.com.
+  else if noParams
+    p To unsubscribe from Bnb Watcher emails, please use the unsubscribe link found on any of our emails.
+    | In it will be a link that lets unsubscribe from all Bnb Watcher emails.
+  else
+    p I tried to unsubscribe you but something went wrong!
+    | Make sure to use the link found in Bnb Watcher emails to unsubscribe.
+    p If you are still receiving emails, please contact info@bnbwatcher.com.
