@@ -8,16 +8,16 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   var id = Utils.filterInt(req.query.id);
   var token = req.query.token;
-  if (id === null || token.length !== 40) {
-    res.render('cancel', {success: false});
+  if (!id || !token) {
+    res.render('cancel', {success: false, noParams: true});
     return;
   }
   query = 'SELECT * FROM watchers WHERE id = $1';
   Database.executeQuery(query, [id], cancelWatcher);
 
   function cancelWatcher(result) {
-    if (result.length !== 1) {
-      res.render('cancel', {success: false});
+    if (!result || result.length !== 1) {
+      res.render('cancel', {success: false, alreadyDeleted: true});
       return;
     }
     var watcher = new Watcher();

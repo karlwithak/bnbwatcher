@@ -1,8 +1,15 @@
 extends layout
+
 block content
   if success
     p Watcher successfully destroyed! You should receive no more emails for this watcher.
     p Do you want to #[a(href='/') make a new watcher?]
+  else if noParams
+    p To cancel a watcher, please look at any of the emails you received for that watcher.
+    | In it will be a link that lets you cancel the watcher.
+  else if alreadyDeleted
+    p This watcher has already been deleted!
+    p If you are still receiving emails for this watcher, please email info@bnbwatcher.com.
   else
-    p Something went terribly wrong! This watcher may have already been deleted.
-    p If you are still recvieving emails for this watcher, please email info@bnbwatcher.com.
+    p I tried to delete your watcher but something went terribly wrong!
+    p If you are still receiving emails for this watcher, please email info@bnbwatcher.com.
