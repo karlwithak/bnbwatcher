@@ -128,10 +128,12 @@ Watcher.prototype.updateRoomIds = function() {
 Watcher.prototype.initRoomIds = function(callback) {
   var watcher = this;
   watcher.room_ids = [];
+  watcher.room_names = [];
   function fetcher(json) {
     var total_ids = json['listings_count'];
     json['listings'].forEach(function (listing) {
       watcher.room_ids.push(listing['listing']['id']);
+      watcher.room_names.push(listing['listing']['name']);
     });
     if (watcher.room_ids.length < total_ids && watcher.room_ids.length < MAX_IDS) {
       Utils.makeHttpsRequest('m.airbnb.com', watcher.buildQuery(watcher.room_ids.length), fetcher);

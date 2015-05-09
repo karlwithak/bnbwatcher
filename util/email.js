@@ -22,10 +22,11 @@ var Email = {
 
 Email.sendNewRooms = function(watcher, newIds) {
   var roomLinks = newIds.map(function (roomId) {
-    return buildRoomLink(this, roomId);
-  }, this);
+    return buildRoomLink(watcher, roomId);
+  });
   var locals = {
     roomLinks: roomLinks,
+    roomNames: watcher.room_names,
     cancelLink: buildCancelLink(watcher),
     unsubscribe: buildUnsubscribeLink(watcher),
     location: watcher.location
