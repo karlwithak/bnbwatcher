@@ -77,13 +77,13 @@ function sendEmail(html, to, subject) {
 }
 
 function buildCancelLink(watcher) {
-  return 'http://104.236.215.4:3000/cancel?' +
+  return 'http://bnbwatcher.com/cancel?' +
       'id=' + watcher.id +
       '&token=' + Crypt.getWatcherToken(watcher);
 }
 
 function buildUnsubscribeLink(watcher) {
-  return 'http://104.236.215.4:3000/unsubscribe?' +
+  return 'http://bnbwatcher.com/unsubscribe?' +
       'email=' + watcher.email +
       '&token=' + Crypt.getUnsubscribeToken(watcher.email);
 }
