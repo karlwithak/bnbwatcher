@@ -15,8 +15,8 @@ block content
     p Get notified when rooms you want are posted.
   form(id='signUp', action='/create', method='post')
     section
-      h3 Location
-      input(type='text', name='location', placeholder='City', required='',
+      h3.required Location
+      input(type='text', name='location', placeholder='Toronto, ON, Canada', required='',
       autocomplete='off', maxlength='255')
       ul#predictions
         li
@@ -26,7 +26,7 @@ block content
         li
 
     section
-      h3 Dates
+      h3.required Dates
       input(type='text', name='checkin', placeholder='Check In Date', autocomplete='off')
       div#moveInContainer
 
@@ -88,24 +88,10 @@ block content
       h3 Size
       select(name='number_of_guests')
         option(value='') Guests
-        option(value='1') Guest
-        - var n = 0
+        option(value='1') 1 Guest
+        - var n = 1
         while n < 16
           option(value='#{++n}') #{n} Guests
-
-      select(name='min_bathrooms')
-        option(value='') Bathrooms
-        - var n = 0
-        while n <= 8
-          option(value='#{n}') #{n} Bathrooms
-          - n += 0.5
-      br
-      select(name='min_bedrooms')
-          option(value='') Bedrooms
-          option(value='1') 1 Bedroom
-          - var n = 1
-          while n < 10
-            option(value='#{++n}') #{n} Bedrooms
 
       select(name='min_beds')
         option(value='') Beds
@@ -114,10 +100,26 @@ block content
         while n < 16
           option(value='#{++n}') #{n} Beds
 
+      br
+
+      select(name='min_bedrooms')
+        option(value='') Bedrooms
+        option(value='1') 1 Bedroom
+        - var n = 1
+        while n < 10
+          option(value='#{++n}') #{n} Bedrooms
+
+      select(name='min_bathrooms')
+        option(value='') Bathrooms
+        - var n = 0
+        while n <= 8
+          option(value='#{n}') #{n} Bathrooms
+          - n += 0.5
+
 
     section
-      h3 Room type
-      div
+      h3 Room Type
+      div.room_buttons
         input(type='checkbox', name='room_type_entire', id='entire_room')
         label.room_type(for='entire_room') Entire Place
 
@@ -129,7 +131,8 @@ block content
 
 
     section
-      input(type='email', name='email', placeholder='Email Address', required='',
-      autocomplete='off', maxlength='255')
+      h3.required Email Address
+      input(type='email', name='email', placeholder='you@email.com', required='',
+        autocomplete='off', maxlength='255')
       br
       input(type='submit', id='submitSignUp', value='Create Watcher')

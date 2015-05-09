@@ -5,7 +5,7 @@ $(function(){
   var milliseconsInDay = 1000 * 60 * 60 * 24;
   var millisecondsInYear = milliseconsInDay * 365;
   var now = new Date();
-  var twoYearsFromNow = new Date(now.getTime() + (millisecondsInYear * 2));
+  var aYearFromNow = new Date(now.getTime() + millisecondsInYear);
 
   var $checkin = $('input[name=checkin]');
   var $checkout = $('input[name=checkout]');
@@ -13,20 +13,21 @@ $(function(){
   var checkin_picker = new Pikaday({
     field: $checkin[0],
     minDate: now,
-    maxDate: twoYearsFromNow,
+    maxDate: aYearFromNow,
     container: $('#moveInContainer')[0]
   });
 
   var checkout_picker = new Pikaday({
     field: $checkout[0],
     minDate: now,
-    maxDate: twoYearsFromNow,
+    maxDate: aYearFromNow,
     container: $('#moveOutContainer')[0]
   });
   
   $checkin.change(function () {
     var next_date = new Date($checkin.val());
     if (isNaN(next_date.getTime())) {
+      $checkin.val('');
       checkout_picker.setMinDate(now);
       return;
     }
@@ -45,7 +46,7 @@ $(function(){
   $checkout.change(function () {
     var prev_date = new Date($checkout.val());
     if (isNaN(prev_date.getTime())) {
-      checkin_picker.setMaxDate(twoYearsFromNow);
+      checkin_picker.setMaxDate(aYearFromNow);
       return;
     }
     prev_date.setDate(prev_date.getDate() - 1);

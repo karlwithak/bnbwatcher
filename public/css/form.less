@@ -68,7 +68,7 @@ select {
 label.room_type {
   padding: @spacing/4 @spacing;
   width: 3em;
-  margin: @spacing @spacing 0 0;
+  margin: 0 @spacing 0 0;
   cursor: pointer;
   border: solid 3px #555;
   display: inline-block;
@@ -100,4 +100,13 @@ ul#predictions {
       display: none;
     }
   }
+}
+
+div.room_buttons {
+  margin: @spacing 0;
+}
+
+h3.required:before {
+  content: "*";
+  color: @main-blue;
 }

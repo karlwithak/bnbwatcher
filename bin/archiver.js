@@ -14,6 +14,6 @@ function archiver(result) {
 }
 var query =
     'SELECT * FROM watchers ' +
-    'WHERE checkin < current_date OR checkout < current_date ' +
+    'WHERE (checkin < current_date OR checkout < current_date) ' +
     'AND NOT archived';
 Database.executeQuery(query, [], archiver);

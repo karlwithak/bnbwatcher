@@ -84,6 +84,10 @@ Watcher.prototype.validateFromForm = function() {
   this.room_type_shared = Boolean(this.room_type_shared);
 
   this.checkin = Utils.filterDate(this.checkin);
+  if (this.checkin === null) {
+    console.error("checkin for watcher was null, setting to today");
+    this.checkin = new Date();
+  }
   this.checkout = Utils.filterDate(this.checkout);
 
   this.currency = this.currency ? this.currency : null;
