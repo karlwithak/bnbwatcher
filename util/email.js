@@ -20,13 +20,13 @@ var Email = {
   css: fs.readFileSync('./public/css/email.css', 'utf8')
 };
 
-Email.sendNewRooms = function(watcher, newIds) {
+Email.sendNewRooms = function(watcher, newIds, newRoomNames) {
   var roomLinks = newIds.map(function (roomId) {
     return buildRoomLink(watcher, roomId);
   });
   var locals = {
     roomLinks: roomLinks,
-    roomNames: watcher.room_names,
+    roomNames: newRoomNames,
     cancelLink: buildCancelLink(watcher),
     unsubscribe: buildUnsubscribeLink(watcher),
     location: watcher.location

@@ -67,12 +67,6 @@ Utils.urlifyDate = function(date) {
   return(date.toJSON().substring(10, 0));
 };
 
-Utils.arrayDiff = function(arr1, arr2) {
-  return arr1.filter(function(i) {
-    return arr2.indexOf(i) < 0;
-  });
-};
-
 Utils.arrayUnion = function(arr1, arr2) {
   var union = arr1.concat(arr2);
   union.sort();
