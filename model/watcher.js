@@ -83,9 +83,14 @@ Watcher.prototype.validateFromForm = function() {
   this.room_type_private = Boolean(this.room_type_private);
   this.room_type_shared = Boolean(this.room_type_shared);
 
+  var now = new Date().getTime();
+  var millisecondsInYear = 1000 * 60 * 60 * 24 * 366;
   this.checkin = Utils.filterDate(this.checkin);
-  if (this.checkin === null) {
-    console.error("checkin for watcher was null, setting to today");
+  if (!this.checkin) {
+    console.log("checkin for watcher was null, setting to today");
+    this.checkin = new Date();
+  } else if (this.checkin.getTime() - now > millisecondsInYear) {
+    console.log("checkin for watcher was too far in future, setting to today");
     this.checkin = new Date();
   }
   this.checkout = Utils.filterDate(this.checkout);

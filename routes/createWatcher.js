@@ -11,7 +11,8 @@ router.post('/', function(req, res, next) {
       req.body['email'].length < 5 ||
       !req.body['location'] ||
       req.body['location'].length > 1024 ||
-      req.body['location'].length < 1)
+      req.body['location'].length < 1 ||
+      !req.body['checkin'])
   {
     res.render('create', {success: false});
   } else {
