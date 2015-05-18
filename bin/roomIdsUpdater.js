@@ -6,6 +6,7 @@ var Database = require('../util/database.js');
 var Email = require('../util/email.js');
 
 function updater(result) {
+  console.log(new Date().toLocaleString() + " Starting roomIdsUpdater");
   result.forEach(function (row) {
     var watcher = new Watcher();
     watcher.createFromDbRow(row);
@@ -14,9 +15,8 @@ function updater(result) {
     watcher.initRoomIds(checkForNewIds);
     function checkForNewIds() {
       var newRooms = filterNewRooms(watcher.room_names, watcher.room_ids, oldIds);
-      console.log("ids: " + newRooms.ids);
-      console.log("names: " + newRooms.names);
       if (newRooms.ids.length > 0) {
+        console.log("found " + newRooms.ids.length + " new rooms for watcher: " + watcher.id);
         Email.sendNewRooms(watcher, newRooms.ids, newRooms.names);
         watcher.room_ids = Utils.arrayUnion(watcher.room_ids, oldIds);
         watcher.updateRoomIds();

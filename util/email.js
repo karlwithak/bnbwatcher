@@ -61,6 +61,7 @@ Email.sendCreatedWatcher = function(watcher) {
 };
 
 function sendEmail(html, to, subject) {
+  console.log(new Date().toLocaleString() + " Sending email to: " + to + " with subject: " + subject);
   var data = juice.inlineContent(html, Email.css, juiceOptions);
   server.send({
     from: 'Bnb Watcher <info@bnbwatcher.com>',
