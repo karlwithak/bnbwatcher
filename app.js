@@ -21,7 +21,7 @@ app.set('view options', {
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
-app.use(logger('dev', {stream: accessLogStream}));
+app.use(logger('common', {stream: accessLogStream}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
