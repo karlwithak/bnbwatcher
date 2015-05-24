@@ -27,7 +27,7 @@ block content
 
     section
       h3.required Dates
-      input(type='text', name='checkin', placeholder='Check In Date', autocomplete='off')
+      input(type='text', name='checkin', placeholder='Check In Date', autocomplete='off', required='')
       div#moveInContainer
 
       input(type='text', name='checkout', placeholder='Check Out Date', autocomplete='off')
@@ -136,3 +136,6 @@ block content
         autocomplete='off', maxlength='255')
       br
       input(type='submit', id='submitSignUp', value='Create Watcher')
+      p This watcher matches&nbsp;
+        span#currentRooms 0
+        |  rooms.
