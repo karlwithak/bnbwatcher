@@ -158,7 +158,7 @@ Watcher.prototype.initRoomIds = function(callback) {
 Watcher.prototype.buildQuery = function(offset) {
   var query = '/api/-/v1/listings/search?items_per_page=50' +
       Utils.addParam('location', this.location.replace(/ /g, '+')) +
-      Utils.addParam('number_of_guests', this.number_of_guests) +
+      Utils.addParam('guests', this.number_of_guests) +
       Utils.addParam('price_min', this.price_min) +
       Utils.addParam('price_max', this.price_max) +
       Utils.addParam('min_bedrooms', this.min_bedrooms) +
@@ -169,7 +169,7 @@ Watcher.prototype.buildQuery = function(offset) {
     query += Utils.addParam('min_bathrooms', this.min_bathrooms / 10);
   }
   if (this.room_type_entire) {
-    query += Utils.addParam('room_types[]', 'Entire+room');
+    query += Utils.addParam('room_types[]', 'Entire+home/apt');
   }
   if (this.room_type_private) {
     query += Utils.addParam('room_types[]', 'Private+room');
