@@ -11,9 +11,11 @@ router.get('/', function(req, res, next) {
   var id = Utils.filterInt(req.query.id);
   var token = req.query.token;
   if (!id || !token) {
+    console.log('cancel failed with req: ' + JSON.stringify(req.query));
     res.render('cancel', {success: false, noParams: true});
     return;
   } else if (token.length !== 40) {
+    console.log('cancel failed with req: ' + JSON.stringify(req.query));
     res.render('cancel', {success: false});
     return;
   }
@@ -22,6 +24,7 @@ router.get('/', function(req, res, next) {
 
   function cancelWatcher(result) {
     if (!result || result.length !== 1) {
+      console.log('cancel failed with no matching watcher/already deleted');
       res.render('cancel', {success: false, alreadyDeleted: true});
       return;
     }
@@ -32,6 +35,7 @@ router.get('/', function(req, res, next) {
       watcher.archive();
       res.render('cancel', {success: true});
     } else {
+      console.log('cancel failed crypto check with tokens: ' + realToken + " " + token);
       res.render('cancel', {success: false});
     }
   }

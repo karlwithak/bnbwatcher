@@ -10,9 +10,11 @@ router.get('/', function(req, res, next) {
   var email = req.query.email;
   var token = req.query.token;
   if (!email || !token) {
+    console.log('unsubscribe failed with req: ' + JSON.stringify(req.query));
     res.render('unsubscribe', {success: false, noParams: true});
     return;
   } else if (email.length > 254 || token.length !== 40) {
+    console.log('unsubscribe failed with req: ' + JSON.stringify(req.query));
     res.render('unsubscribe', {success: false});
     return;
   }
@@ -26,6 +28,7 @@ router.get('/', function(req, res, next) {
     Database.executeQuery(query, [email]);
     res.render('unsubscribe', {success: true, email: email});
   } else {
+    console.log('unsubscribe failed crypto check with tokens: ' + realToken + " " + token);
     res.render('unsubscribe', {success: false});
   }
 });

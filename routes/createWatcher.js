@@ -14,6 +14,7 @@ router.post('/', function(req, res, next) {
       req.body['location'].length < 1 ||
       !req.body['checkin'])
   {
+    console.log('create watcher failed with form: ' + JSON.stringify(req.body));
     res.render('create', {success: false});
   } else {
     var watcher = new Watcher();
