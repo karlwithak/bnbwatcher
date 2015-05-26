@@ -145,7 +145,7 @@ $(function(){
   $form.on('change', checkCurrentRooms);
 
   function checkCurrentRooms() {
-    if (!$fields.location.val()) {
+    if (!$fields.location.val() || $fields.location.val().length < 1) {
       $currentRooms.text(0);
       return;
     }
@@ -169,10 +169,15 @@ $(function(){
   }
 
   function updateCurrentRooms(data) {
+    var tooFewMatches = $("p#tooFewMatches").hide();
+    var tooManyMatches = $("p#tooManyMatches").hide();
     if (!data) return;
     var roomCount = data.listings_count;
     if (roomCount >= 1000) {
       roomCount = "1000+";
+      tooManyMatches.show();
+    } else if (roomCount < 5) {
+      tooFewMatches.show();
     }
     $currentRooms.text(roomCount);
   }
